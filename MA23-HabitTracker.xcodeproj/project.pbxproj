@@ -14,6 +14,7 @@
 		6DAAB0772BD6419F00495CC6 /* MA23_HabitTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0762BD6419F00495CC6 /* MA23_HabitTrackerTests.swift */; };
 		6DAAB0812BD6419F00495CC6 /* MA23_HabitTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0802BD6419F00495CC6 /* MA23_HabitTrackerUITests.swift */; };
 		6DAAB0832BD6419F00495CC6 /* MA23_HabitTrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0822BD6419F00495CC6 /* MA23_HabitTrackerUITestsLaunchTests.swift */; };
+		6DAAB0912BD6480100495CC6 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0902BD6480100495CC6 /* Habit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		6DAAB07C2BD6419F00495CC6 /* MA23-HabitTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MA23-HabitTrackerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DAAB0802BD6419F00495CC6 /* MA23_HabitTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MA23_HabitTrackerUITests.swift; sourceTree = "<group>"; };
 		6DAAB0822BD6419F00495CC6 /* MA23_HabitTrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MA23_HabitTrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6DAAB0902BD6480100495CC6 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		6DAAB0642BD6419D00495CC6 /* MA23-HabitTracker */ = {
 			isa = PBXGroup;
 			children = (
+				6DAAB08F2BD647E500495CC6 /* Models */,
 				6DAAB0652BD6419D00495CC6 /* MA23_HabitTrackerApp.swift */,
 				6DAAB0672BD6419D00495CC6 /* ContentView.swift */,
 				6DAAB0692BD6419E00495CC6 /* Assets.xcassets */,
@@ -125,6 +128,14 @@
 				6DAAB0822BD6419F00495CC6 /* MA23_HabitTrackerUITestsLaunchTests.swift */,
 			);
 			path = "MA23-HabitTrackerUITests";
+			sourceTree = "<group>";
+		};
+		6DAAB08F2BD647E500495CC6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6DAAB0902BD6480100495CC6 /* Habit.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DAAB0912BD6480100495CC6 /* Habit.swift in Sources */,
 				6DAAB0682BD6419D00495CC6 /* ContentView.swift in Sources */,
 				6DAAB0662BD6419D00495CC6 /* MA23_HabitTrackerApp.swift in Sources */,
 			);
