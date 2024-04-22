@@ -7,10 +7,10 @@
 
 import Foundation
 
-class Habit{
+class Habit: ObservableObject{
     var name: String
     var createdAt: Date
-    var doneDays: [Date] = []
+    @Published var doneDays: [Date] = []
     
     init(name: String, createdAt: Date){
         self.name = name
