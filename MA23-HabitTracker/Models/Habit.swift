@@ -7,7 +7,8 @@
 
 import Foundation
 
-class Habit: ObservableObject{
+class Habit: ObservableObject, Identifiable{
+    var id = UUID()
     var name: String
     var createdAt: Date
     @Published var doneDays: [Date] = []
