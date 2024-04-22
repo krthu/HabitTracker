@@ -12,10 +12,16 @@ struct HabitListView: View {
     
     
     var body: some View {
-        
-        List{
-            ForEach(habtisViewModel.habits){ habit in
-                Text(habit.name)
+        NavigationStack{
+            List{
+                ForEach(habtisViewModel.habits){ habit in
+                    Text(habit.name)
+                }
+            }
+            .navigationTitle("Habits")
+            .toolbar{
+                Button("Hello", systemImage: "plus"){
+                }
             }
         }
     }
