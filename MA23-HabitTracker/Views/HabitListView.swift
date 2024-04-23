@@ -16,10 +16,10 @@ struct HabitListView: View {
         NavigationStack{
             List{
                 ForEach(habitsVM.habits){ habit in
-                    HStack{
-                        HabitRow(habitsVM: habitsVM, habit: habit)
+                    
+                    HabitRow(habitsVM: habitsVM, habit: habit)
 
-                    }
+
                 }
             }
             .navigationTitle("Habits")
@@ -42,16 +42,24 @@ struct HabitRow: View {
     @ObservedObject var habit: Habit
     
     var body: some View {
-        Text(habit.name)
-
-        Spacer()
-        
-        if !habitsVM.isDone(habit: habit, on: Date()){
-            Button("Done"){
-
-            habitsVM.done(habit: habit, onDate: Date())
+        HStack{
+            Text(habit.name)
+            
+            Spacer()
+            
+            if !habitsVM.isDone(habit: habit, on: Date()){
+                Button("Done"){
+                    
+                    habitsVM.done(habit: habit, onDate: Date())
+                }
+                .padding()
+                .border(.blue)
             }
         }
+        .onTapGesture {
+            print("tapped row")
+        }
+        .border(.blue)
     }
 }
 
