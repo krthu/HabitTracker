@@ -29,6 +29,9 @@ class HabitsViewModel: ObservableObject{
         if let date = getDate(year: 2024, month: 4, day: 21){
             done(habit: habits[0], onDate: date)
         }
+        if let date = getDate(year: 2024, month: 4, day: 23){
+            done(habit: habits[0], onDate: date)
+        }
         
     }
     
@@ -37,6 +40,36 @@ class HabitsViewModel: ObservableObject{
         let datecomponent = DateComponents(year: year, month: month, day: day)
         return calendar.date(from: datecomponent)
         
+    }
+    
+    func getWeekDays(for date: Date) -> [Date] {
+        let calendar = Calendar.current
+        let interval = calendar.dateInterval(of: .weekOfYear, for: date)
+        var weekDays: [Date] = []
+        if let interval = interval{
+            for i in 0..<7{
+                if let dateOfWeek = calendar.date(byAdding: .day, value: i, to: interval.start){
+                    weekDays.append(dateOfWeek)
+                }
+            }
+        }
+        return weekDays
+    }
+    
+    func getWeekNumber(from date: Date) -> Int{
+        let calender = Calendar.current
+        let weekNumber = calender.component(.weekOfYear, from: date)
+        return weekNumber
+    }
+    
+    func getDate(numberOfDaysFrom: Int, from startDate: Date) -> Date{
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.day = numberOfDaysFrom
+        if let newDate = calendar.date(byAdding: dateComponents, to: startDate){
+            return newDate
+        }
+        return startDate // Kanske borde vara nil
     }
     
     func addHabit(withName name: String){

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HabitListView: View {
     
-    @StateObject var habitsVM = HabitsViewModel()
+    @ObservedObject var habitsVM: HabitsViewModel
     @State var showAddHabitSheet = false
  
     var body: some View {
@@ -92,5 +92,5 @@ struct AddHabitSheet: View {
 }
 
 #Preview {
-    HabitListView()
+    HabitListView(habitsVM: HabitsViewModel())
 }
