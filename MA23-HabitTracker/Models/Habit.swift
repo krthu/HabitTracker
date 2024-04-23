@@ -18,8 +18,8 @@ class Habit: ObservableObject, Identifiable{
         self.createdAt = createdAt
     }
     
-    func done(onDate date: Date){
-        doneDays.append(date)
-    }
+//    func done(onDate date: Date){
+//        doneDays.append(date)
+//    }
     
 }

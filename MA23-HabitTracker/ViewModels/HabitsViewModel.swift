@@ -7,8 +7,8 @@
 
 import Foundation
 
-class HabitsViewModel{
-    var habits: [Habit] = []
+class HabitsViewModel: ObservableObject{
+    @Published var habits: [Habit] = []
     
     init() {
         addMockData()
@@ -17,6 +17,21 @@ class HabitsViewModel{
     func addMockData(){
         habits.append(Habit(name: "Löpa 5km", createdAt: Date()))
         habits.append(Habit(name: "Dricka vatten", createdAt: Date()))
+    }
+    
+    func addHabit(withName name: String){
+        habits.append(Habit(name: name, createdAt: Date()))
+    }
+    
+    func done(habit: Habit, onDate date: Date){
+//        habit.done(onDate: date)
+        habit.doneDays.append(date)
+    }
+    
+    func isDone( habit: Habit, on date: Date) -> Bool{
+        return habit.doneDays.contains{ doneDate in
+            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+        }
     }
     
 }
