@@ -44,6 +44,7 @@ struct HabitRow: View {
     var body: some View {
         HStack{
             Text(habit.name)
+            Text("\(habit.currentStreak)")
             
             Spacer()
             
