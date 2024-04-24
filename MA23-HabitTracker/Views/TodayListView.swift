@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HabitListView: View {
+struct TodayListView: View {
     
     @ObservedObject var habitsVM: HabitsViewModel
     @State var showAddHabitSheet = false
@@ -181,5 +181,5 @@ struct AddHabitSheet: View {
 }
     
     #Preview {
-        HabitListView(habitsVM: HabitsViewModel())
+        TodayListView(habitsVM: HabitsViewModel())
     }

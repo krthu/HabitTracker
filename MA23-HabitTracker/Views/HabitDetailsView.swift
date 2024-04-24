@@ -78,7 +78,7 @@ struct CalendarBodyView: View{
             }
             ForEach(days, id: \.self) { day in
                 let dayNumber = Calendar.current.component(.day, from: day)
-                CalendarDayView(dayNumber: dayNumber, isGreen: habitsVM.isDone(habit: habit, on: day))
+                CalendarDayView(dayNumber: dayNumber, isDone: habitsVM.isDone(habit: habit, on: day))
             }
         }
         
@@ -123,7 +123,7 @@ struct CalendarHeader: View {
 struct CalendarDayView: View {
     var dayNumber: Int
 
-    var isGreen: Bool
+    var isDone: Bool
     var body: some View {
         VStack{
             Text("\(dayNumber)")
@@ -132,7 +132,8 @@ struct CalendarDayView: View {
         }
         .frame(width: 20, height: 30)
         .padding(8)
-        .background(isGreen ? Color.green : Color.clear)
+        .background(isDone ? Color.blue : Color.clear)
+        .foregroundColor(isDone ? Color.white : .primary)
         .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
     }
 }
