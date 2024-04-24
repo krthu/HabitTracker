@@ -9,33 +9,30 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var habitsVM = HabitsViewModel()
-    
-    
+
     var body: some View {
         TabView{
    
-                TodayListView(habitsVM: habitsVM)
-                    .tabItem {
-                        Label("Today", systemImage:
-                                "\(getSymbol(for:Date())).square")
-                                //"list.bullet")
-                    }
-                
-                HabitsListView(habitsVM: habitsVM)
-                    .tabItem{
-                        Label("Habits", systemImage: "list.bullet.rectangle.portrait")
-                    }
-                
-                
-      
+            TodayListView(habitsVM: habitsVM)
+                .tabItem {
+                    Label("Today", systemImage:
+                            "\(getSymbol(for:Date())).square")
+                            //"list.bullet")
+                }
+            NewHabitView()
+                .tabItem {
+                    Label("Add Habit", systemImage:
+                            "plus.circle")
+                            //"list.bullet")
+                }
             
-
-
-           
+            HabitsListView(habitsVM: habitsVM)
+                .tabItem{
+                    Label("Habits", systemImage: "list.bullet.rectangle.portrait")
+                }
         }
-        .onAppear(){
-            print(getSymbol(for: Date()))
-        }
+    
+        
       
         
     

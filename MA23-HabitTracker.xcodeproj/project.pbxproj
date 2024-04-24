@@ -19,6 +19,7 @@
 		6DAAB0972BD65CA000495CC6 /* HabitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0962BD65CA000495CC6 /* HabitsViewModel.swift */; };
 		6DAAB0992BD7B25600495CC6 /* HabitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0982BD7B25600495CC6 /* HabitsListView.swift */; };
 		6DAAB09B2BD8DA8400495CC6 /* HabitDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB09A2BD8DA8400495CC6 /* HabitDetailsView.swift */; };
+		6DAAB09D2BD98D8000495CC6 /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB09C2BD98D8000495CC6 /* NewHabitView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		6DAAB0962BD65CA000495CC6 /* HabitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewModel.swift; sourceTree = "<group>"; };
 		6DAAB0982BD7B25600495CC6 /* HabitsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsListView.swift; sourceTree = "<group>"; };
 		6DAAB09A2BD8DA8400495CC6 /* HabitDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsView.swift; sourceTree = "<group>"; };
+		6DAAB09C2BD98D8000495CC6 /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 				6DAAB0922BD659CE00495CC6 /* TodayListView.swift */,
 				6DAAB0982BD7B25600495CC6 /* HabitsListView.swift */,
 				6DAAB09A2BD8DA8400495CC6 /* HabitDetailsView.swift */,
+				6DAAB09C2BD98D8000495CC6 /* NewHabitView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			files = (
 				6DAAB0992BD7B25600495CC6 /* HabitsListView.swift in Sources */,
 				6DAAB0972BD65CA000495CC6 /* HabitsViewModel.swift in Sources */,
+				6DAAB09D2BD98D8000495CC6 /* NewHabitView.swift in Sources */,
 				6DAAB0912BD6480100495CC6 /* Habit.swift in Sources */,
 				6DAAB0932BD659CE00495CC6 /* TodayListView.swift in Sources */,
 				6DAAB09B2BD8DA8400495CC6 /* HabitDetailsView.swift in Sources */,
@@ -466,6 +470,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MA23-HabitTracker/Preview Content\"";
+				DEVELOPMENT_TEAM = N79JMDU83J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -494,6 +499,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MA23-HabitTracker/Preview Content\"";
+				DEVELOPMENT_TEAM = N79JMDU83J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
