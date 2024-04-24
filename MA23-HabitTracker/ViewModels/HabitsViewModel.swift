@@ -157,4 +157,23 @@ extension Date {
         
     }
     
+    var monthName: String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        return dateFormatter.string(from: self)
+        
+    }
+    
+    
+    func nextMonth(_ monthsToMove: Int = 1) -> Date? {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .month, value: monthsToMove, to: self)
+    }
+    
+    func previousMonth(_ monthsToMove: Int = 1) -> Date? {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .month, value: -monthsToMove, to: self)
+    }
+    
+    
 }
