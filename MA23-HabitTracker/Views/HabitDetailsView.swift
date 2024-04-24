@@ -17,28 +17,111 @@ struct HabitDetailsView: View {
         let components = calendar.dateComponents([.year, .month], from: currentDate)
         return calendar.date(from: components)!
     }()
-
-    
     
     var body: some View {
         
-        VStack{
-            habitCalendarView(date: $date)
+        ZStack{
+            Color(.systemGray6)
+                .ignoresSafeArea()
+            
+            VStack{
+                HStack{
+                    Text("Calendar")
+                        .font(.title2)
+                        .bold()
+                    Spacer()
+                }
+                
+                habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
+                    .padding()
+                    .background()
+                   
+                    .cornerRadius(20)
+            }
+           
+            .padding()
         }
-        .navigationBarTitle("Calendar")
+        .navigationTitle(habit.name)
+        
         
     }
 }
 
 struct habitCalendarView: View{
+    @ObservedObject var habitsVM: HabitsViewModel
+    @ObservedObject var habit: Habit
     @Binding var date: Date
+    var doneDays: [Date]
+    
     var body: some View{
         VStack{
-
             CalendarHeader(date: $date)
+            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth)
         }
     }
 }
+
+//struct CalendarBodyView: View{
+//    var days: [Date]
+//    var body: some View{
+//        VStack{
+//            HStack{
+//                Text("Mo")
+//                Text("Tu")
+//                Text("We")
+//                Text("Th")
+//                Text("Fr")
+//                Text("Sa")
+//                Text("Su")
+//            }
+//            ForEach(days, id: \.self){ day in
+//                Text(day.formatted(date: .long, time: .omitted))
+//            }
+//        }
+//    }
+//}
+
+struct CalendarBodyView: View{
+ 
+    @ObservedObject var habitsVM: HabitsViewModel
+    @ObservedObject var habit: Habit
+    var days: [Date]
+  
+    let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
+    var body: some View{
+        LazyVGrid(columns: columns, spacing: 0) {
+            Text("Mo")
+            Text("Tu")
+            Text("We")
+            Text("Th")
+            Text("Fr")
+            Text("Sa")
+            Text("Su")
+            ForEach(0..<firstWeekdayIndex, id: \.self) { _ in
+                Spacer()
+            }
+            ForEach(days, id: \.self) { day in
+                let dayNumber = Calendar.current.component(.day, from: day)
+//                Text("\(dayNumber)")
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    .border(Color.gray) // Valfritt: Lägg till en gräns för varje cell
+                CalendarDayView(dayNumber: dayNumber, isGreen: habitsVM.isDone(habit: habit, on: day))
+            }
+        }
+        
+    }
+    private var firstWeekdayIndex: Int {
+        guard let firstDay = days.first else { return 0 }
+        let weekday = Calendar.current.component(.weekday, from: firstDay)
+        return (weekday + 5) % 7 // Justera indexet för att börja på måndag
+    }
+}
+
+
+
+
+
+
 
 struct CalendarHeader: View {
     @Binding var date: Date
@@ -66,6 +149,34 @@ struct CalendarHeader: View {
             })
             .padding()
         }
+    }
+}
+
+struct CalendarDayView: View {
+    var dayNumber: Int
+
+    var isGreen: Bool
+    var body: some View {
+        VStack{
+            Text("\(dayNumber)")
+                .font(.caption)
+                .bold()
+                
+        }
+        .frame(width: 20, height: 30)
+        .padding(8)
+       // .cornerRadius(10)
+        //.border(.black)
+        .background(isGreen ? Color.green : Color.clear)
+        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 10) // Lägg till en overlay med samma hörnradie
+//                .stroke(Color.black, lineWidth: 1) // Lägg till en svart ram med en tjocklek på 1 punkt runt de rundade hörnen
+//        )
+        
+        
+
+
     }
 }
 
