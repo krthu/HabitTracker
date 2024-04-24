@@ -11,29 +11,36 @@ struct HabitListView: View {
     
     @ObservedObject var habitsVM: HabitsViewModel
     @State var showAddHabitSheet = false
- 
+    
     var body: some View {
         NavigationStack{
-            List{
-                ForEach(habitsVM.habits){ habit in
-                    
-                    HabitRow(habitsVM: habitsVM, habit: habit)
-
+            VStack{
+                List{
+                    Section{
+                        ForEach(habitsVM.habits){ habit in
+                            HabitRow(habitsVM: habitsVM, habit: habit)
+                                .onTapGesture {
+                                    habitsVM.toggleDone(habit: habit, onDate: Date())
+                                }
+                        }
+                        .navigationTitle("Today")
+                    }
 
                 }
             }
-            .navigationTitle("Habits")
             .toolbar{
                 Button("Hello", systemImage: "plus"){
                     showAddHabitSheet = true
                 }
             }
+            
+            .sheet(isPresented: $showAddHabitSheet, content: {
+                AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
+            })
+            Spacer()
         }
-        .sheet(isPresented: $showAddHabitSheet, content: {
-            AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
-        })
+        
     }
-    
 }
 
 
@@ -42,25 +49,27 @@ struct HabitRow: View {
     @ObservedObject var habit: Habit
     
     var body: some View {
-        HStack{
-            Text(habit.name)
-            Text("\(habit.currentStreak)")
-            
-            Spacer()
-            
-            if !habitsVM.isDone(habit: habit, on: Date()){
-                Button("Done"){
-                    
-                    habitsVM.done(habit: habit, onDate: Date())
+        HStack {
+            Image(systemName: habitsVM.isDone(habit: habit, on: Date()) ? "checkmark.circle.fill": "circle")
+                .foregroundColor(.blue)
+                .font(.title)
+            HStack{
+            VStack(alignment: .leading){
+                    Text(habit.name)
+                        .font(.headline)
+                        .bold()
+                    Text("Reminder")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
-                .padding()
-                .border(.blue)
+                Spacer()
+                Text("\(habit.currentStreak)")
+                
             }
         }
-        .onTapGesture {
-            print("tapped row")
-        }
-        .border(.blue)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+
     }
 }
 
@@ -91,7 +100,7 @@ struct AddHabitSheet: View {
         }
     }
 }
-
-#Preview {
-    HabitListView(habitsVM: HabitsViewModel())
-}
+    
+    #Preview {
+        HabitListView(habitsVM: HabitsViewModel())
+    }
