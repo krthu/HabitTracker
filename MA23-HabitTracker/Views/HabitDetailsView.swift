@@ -31,19 +31,15 @@ struct HabitDetailsView: View {
                         .bold()
                     Spacer()
                 }
-                
                 habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
                     .padding()
                     .background()
                    
                     .cornerRadius(20)
             }
-           
             .padding()
         }
         .navigationTitle(habit.name)
-        
-        
     }
 }
 
@@ -60,26 +56,6 @@ struct habitCalendarView: View{
         }
     }
 }
-
-//struct CalendarBodyView: View{
-//    var days: [Date]
-//    var body: some View{
-//        VStack{
-//            HStack{
-//                Text("Mo")
-//                Text("Tu")
-//                Text("We")
-//                Text("Th")
-//                Text("Fr")
-//                Text("Sa")
-//                Text("Su")
-//            }
-//            ForEach(days, id: \.self){ day in
-//                Text(day.formatted(date: .long, time: .omitted))
-//            }
-//        }
-//    }
-//}
 
 struct CalendarBodyView: View{
  
@@ -102,9 +78,6 @@ struct CalendarBodyView: View{
             }
             ForEach(days, id: \.self) { day in
                 let dayNumber = Calendar.current.component(.day, from: day)
-//                Text("\(dayNumber)")
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                    .border(Color.gray) // Valfritt: Lägg till en gräns för varje cell
                 CalendarDayView(dayNumber: dayNumber, isGreen: habitsVM.isDone(habit: habit, on: day))
             }
         }
@@ -116,11 +89,6 @@ struct CalendarBodyView: View{
         return (weekday + 5) % 7 // Justera indexet för att börja på måndag
     }
 }
-
-
-
-
-
 
 
 struct CalendarHeader: View {
@@ -161,27 +129,13 @@ struct CalendarDayView: View {
             Text("\(dayNumber)")
                 .font(.caption)
                 .bold()
-                
         }
         .frame(width: 20, height: 30)
         .padding(8)
-       // .cornerRadius(10)
-        //.border(.black)
         .background(isGreen ? Color.green : Color.clear)
         .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-//        .overlay(
-//            RoundedRectangle(cornerRadius: 10) // Lägg till en overlay med samma hörnradie
-//                .stroke(Color.black, lineWidth: 1) // Lägg till en svart ram med en tjocklek på 1 punkt runt de rundade hörnen
-//        )
-        
-        
-
-
     }
 }
-
-
-
 
 #Preview {
     HabitDetailsView(habitsVM: HabitsViewModel(), habit:  Habit(name: "Dricka vatten", createdAt: Date()))
