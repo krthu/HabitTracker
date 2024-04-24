@@ -138,6 +138,20 @@ class HabitsViewModel: ObservableObject{
         habit.doneDays.append(date)
     }
     
+    func getProgress(for habit: Habit, in days: [Date]) -> Double{
+       // var succes = 0.0
+        var totalDays = days.count
+        var daysDone = 0.0
+        
+        for day in days{
+            if isDone(habit: habit, on: day){
+                daysDone += 1
+            }
+            
+        }
+        return daysDone/Double(totalDays)
+    }
+    
     
 }
 

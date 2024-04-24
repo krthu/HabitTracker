@@ -71,10 +71,22 @@ struct HabitStatsRowView: View {
     // Perhaps need a date
     var date: Date
     var body: some View {
-        VStack{
+        VStack(alignment: .leading){
+            
             Text("\(habit.name)")
+                .font(.headline)
+                .bold()
+            ProgressView(value: habitsVM.getProgress(for: habit, in: habitsVM.getWeekDays(for: date)))
+
+               
             weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: date))
+             //   .frame(maxWidth: .infinity)
+             
         }
+//        .onAppear(){
+//            print(String(habitsVM.getProgress(for: habit, in: habitsVM.getWeekDays(for: date))))
+      //  }
+       
     }
 }
 
@@ -100,9 +112,11 @@ struct weekView: View {
                 if let dayNumber = components.day{
                     DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isDone(habit: habit, on: date))
                 }
+                    
                 
                 
             }
+            
 //            ForEach(0..<7) { index in
  //               let day = calendar.date(byAdding: .day, value: index, to: calendar.startOfDay(for: today))!
 //                let dayNumber = calendar.component(.day, from: day)
@@ -124,27 +138,32 @@ struct DayView: View {
     var isGreen: Bool
     var body: some View {
         VStack{
-            Text("\(dayNumber)")
-                .font(.caption)
-                .bold()
+//            Text("\(dayNumber)")
+//                .font(.caption)
+//                .bold()
+            
             Text("\(weekdayName)")
                 .foregroundColor(.secondary)
-                .font(.footnote)
+                .font(.caption)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
+            Image(systemName: isGreen ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(.blue)
+                .font(.title)
                 
                 
         }
-        .frame(width: 20, height: 30)
-        .padding(8)
+      
+        .frame(width: 20)
+        .padding(.horizontal, 8)
        // .cornerRadius(10)
         //.border(.black)
-        .background(isGreen ? Color.green : Color.clear)
-        .cornerRadius(10)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10) // Lägg till en overlay med samma hörnradie
-                .stroke(Color.black, lineWidth: 1) // Lägg till en svart ram med en tjocklek på 1 punkt runt de rundade hörnen
-        )
+     //   .background(isGreen ? Color.green : Color.clear)
+     //   .cornerRadius(10)
+      //  .overlay(
+      //      RoundedRectangle(cornerRadius: 10) // Lägg till en overlay med samma hörnradie
+        //        .stroke(Color.black, lineWidth: 1) // Lägg till en svart ram med en tjocklek på 1 punkt runt de rundade hörnen
+     //   )
         
         
 
