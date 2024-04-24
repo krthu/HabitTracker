@@ -8,12 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var habitsVM = HabitsViewModel()
+    
+    
     var body: some View {
         TabView{
-            HabitListView()
+            HabitListView(habitsVM: habitsVM)
             .tabItem {
                 Label("Habits", systemImage: "list.bullet")
             }
+            StatusView(habitsVM: habitsVM)
+            .tabItem{
+                Label("Stats", systemImage: "chart.bar")
+            }
+            
         }
     }
 }
