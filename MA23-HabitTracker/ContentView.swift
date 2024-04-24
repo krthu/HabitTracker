@@ -13,18 +13,43 @@ struct ContentView: View {
     
     var body: some View {
         TabView{
-            HabitListView(habitsVM: habitsVM)
-            .tabItem {
-                Label("Habits", systemImage: "list.bullet")
-            }
-            StatusView(habitsVM: habitsVM)
-            .tabItem{
-                Label("Stats", systemImage: "chart.bar")
-            }
+   
+                TodayListView(habitsVM: habitsVM)
+                    .tabItem {
+                        Label("Today", systemImage:
+                                "\(getSymbol(for:Date())).square")
+                                //"list.bullet")
+                    }
+                
+                HabitsListView(habitsVM: habitsVM)
+                    .tabItem{
+                        Label("Habits", systemImage: "list.bullet.rectangle.portrait")
+                    }
+                
+                
+      
             
+
+
+           
         }
+        .onAppear(){
+            print(getSymbol(for: Date()))
+        }
+      
+        
+    
+        
+    }
+    func getSymbol(for date: Date) -> String{
+        let components = Calendar.current.dateComponents([.day], from: date)
+        if let day = components.day{
+            return String(day)
+        }
+        return "0"
     }
 }
+
 
 #Preview {
     ContentView()

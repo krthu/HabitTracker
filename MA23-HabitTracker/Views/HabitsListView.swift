@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StatusView: View {
+struct HabitsListView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @State var dateSet = Date()
     @State var daysBetweenViews = 7
@@ -156,5 +156,5 @@ struct DayView: View {
 
 
 #Preview {
-    StatusView(habitsVM: HabitsViewModel())
+    HabitsListView(habitsVM: HabitsViewModel())
 }
