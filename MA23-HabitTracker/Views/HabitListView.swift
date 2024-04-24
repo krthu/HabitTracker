@@ -14,30 +14,40 @@ struct HabitListView: View {
     
     var body: some View {
         NavigationStack{
-            VStack{
+            ZStack{
+                Color(UIColor.systemGroupedBackground) // Byt ut mot önskad bakgrundsfärg.
+                    .edgesIgnoringSafeArea(.all)
                 List{
-                    Section{
-                        ForEach(habitsVM.habits){ habit in
-                            HabitRow(habitsVM: habitsVM, habit: habit)
-                                .onTapGesture {
-                                    habitsVM.toggleDone(habit: habit, onDate: Date())
-                                }
-                        }
-                        .navigationTitle("Today")
+                    ForEach(habitsVM.habits){ habit in
+                        
+                        HabitRow(habitsVM: habitsVM, habit: habit)
+                            .onTapGesture {
+                                habitsVM.toggleDone(habit: habit, onDate: Date())
+                            }
+                            .listRowSeparator(.hidden)
+                        
+                        
                     }
-
+                    
+                    
                 }
-            }
-            .toolbar{
-                Button("Hello", systemImage: "plus"){
-                    showAddHabitSheet = true
+                .listStyle(PlainListStyle())
+                .background(Color.clear)
+                
+                
+                
+                .navigationTitle("Today")
+                .toolbar{
+                    Button("Hello", systemImage: "plus"){
+                        showAddHabitSheet = true
+                    }
                 }
+                
+                .sheet(isPresented: $showAddHabitSheet, content: {
+                    AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
+                })
+                Spacer()
             }
-            
-            .sheet(isPresented: $showAddHabitSheet, content: {
-                AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
-            })
-            Spacer()
         }
         
     }
@@ -49,27 +59,96 @@ struct HabitRow: View {
     @ObservedObject var habit: Habit
     
     var body: some View {
-        HStack {
-            Image(systemName: habitsVM.isDone(habit: habit, on: Date()) ? "checkmark.circle.fill": "circle")
-                .foregroundColor(.blue)
-                .font(.title)
-            HStack{
-            VStack(alignment: .leading){
-                    Text(habit.name)
-                        .font(.headline)
-                        .bold()
-                    Text("Reminder")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+//        HStack {
+//            Image(systemName: habitsVM.isDone(habit: habit, on: Date()) ? "checkmark.circle.fill": "circle")
+//                .foregroundColor(.blue)
+//                .font(.title)
+//            HStack{
+//            VStack(alignment: .leading){
+//                    Text(habit.name)
+//                        .font(.headline)
+//                        .bold()
+//                    Text("Reminder")
+//                        .font(.footnote)
+//                        .foregroundStyle(.secondary)
+//                }
+//                Spacer()
+//                VStack{
+//     
+//                    ZStack{
+//                        Circle()
+//                            .foregroundColor(.gray)
+//                            .frame(width: 30, height: 30)
+//                        Text("\(habit.currentStreak)")
+//                            .font(.callout)
+//                    }
+//                    
+//                }
+//                .padding(.horizontal, 10)
+//                
+//                
+//                
+//            }
+//        }
+//        .frame(maxWidth: .infinity)
+//        .padding(.vertical, 10)
+        VStack(alignment: .trailing) {
+            HStack {
+                Image(systemName: habitsVM.isDone(habit: habit, on: Date()) ? "checkmark.circle.fill": "circle")
+                    .foregroundColor(.blue)
+                    .font(.largeTitle)
+                    .padding()
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(habit.name)
+                            .font(.headline)
+                            .bold()
+                        Text("Reminder")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
+                  //  VStack{
+                        ZStack{
+                            Circle()
+                               // .foregroundColor(.blue)
+                                .foregroundColor(Color(circleColor(for: habit.currentStreak)))
+                                .frame(width: 30, height: 30)
+                            Text("\(habit.currentStreak)")
+                                .font(.callout)
+                                .foregroundColor(.white)
+                        }
+                   // }
+
+                    
+//                    Image(systemName: "chevron.right")
+//                        .foregroundColor(.gray)
+//                        .padding(.trailing, 15)
+                    
                 }
-                Spacer()
-                Text("\(habit.currentStreak)")
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 1))
+                .listRowInsets(EdgeInsets())
                 
             }
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .listRowBackground(Color.clear)
+    
 
+
+    }
+    
+    
+    func circleColor(for streak: Int) -> Color{
+        switch streak {
+        case 1...2:
+            return .blue
+        case 3...6:
+            return .green
+        default:
+            return .red
+        }
     }
 }
 
