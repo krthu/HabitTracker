@@ -66,8 +66,8 @@ struct StatusView: View {
 }
 
 struct HabitStatsRowView: View {
-    var habitsVM: HabitsViewModel
-    var habit: Habit
+    @ObservedObject var habitsVM: HabitsViewModel
+    @ObservedObject var habit: Habit
     // Perhaps need a date
     var date: Date
     var body: some View {
@@ -81,8 +81,8 @@ struct HabitStatsRowView: View {
 
 
 struct weekView: View {
-    var habitsVM: HabitsViewModel
-    var habit: Habit
+    @ObservedObject var habitsVM: HabitsViewModel
+    @ObservedObject var habit: Habit
     let calendar = Calendar.current
 //    let today = Date()
 //    let dateFormatter = DateFormatter()
