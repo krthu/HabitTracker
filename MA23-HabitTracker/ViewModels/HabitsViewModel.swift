@@ -32,6 +32,25 @@ class HabitsViewModel: ObservableObject{
         if let date = getDate(year: 2024, month: 4, day: 23){
             done(habit: habits[0], onDate: date)
         }
+        if let date = getDate(year: 2024, month: 3, day: 23){
+            done(habit: habits[0], onDate: date)
+        }
+        
+        if let date = getDate(year: 2024, month: 4, day: 14){
+            done(habit: habits[1], onDate: date)
+        }
+        if let date = getDate(year: 2024, month: 4, day: 18){
+            done(habit: habits[1], onDate: date)
+        }
+        if let date = getDate(year: 2024, month: 4, day: 20){
+            done(habit: habits[1], onDate: date)
+        }
+        if let date = getDate(year: 2024, month: 4, day: 22){
+            done(habit: habits[1], onDate: date)
+        }
+        if let date = getDate(year: 2024, month: 4, day: 23){
+            done(habit: habits[1], onDate: date)
+        }
         
     }
     
@@ -62,6 +81,21 @@ class HabitsViewModel: ObservableObject{
         return weekNumber
     }
     
+    func getDaysOfMonth(from date: Date) -> [Date]{
+        let calendar = Calendar.current
+        var daysInMonth: [Date] = []
+        if let monthInterval = calendar.range(of: .day, in: .month, for: date){
+            for day in monthInterval{
+                var dateComponents = DateComponents()
+                dateComponents.day = day
+                if let date = calendar.date(byAdding: dateComponents, to: date){
+                    daysInMonth.append(date)
+                }
+            }
+        }
+        return daysInMonth
+    }
+    
     func getDate(numberOfDaysFrom: Int, from startDate: Date) -> Date{
         let calendar = Calendar.current
         var dateComponents = DateComponents()
@@ -85,6 +119,42 @@ class HabitsViewModel: ObservableObject{
         return habit.doneDays.contains{ doneDate in
             Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
         }
+    }
+    
+}
+
+extension Date {
+    var startDateOfMonth: Date {
+        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) else {
+            fatalError("Unable to get start date from date")
+        }
+        return date
+    }
+
+    var endDateOfMonth: Date {
+        guard let date = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: self.startDateOfMonth) else {
+            fatalError("Unable to get end date from date")
+        }
+        return date
+    }
+    
+    var getDaysInMonth: [Date]{
+        let startDate = self.startDateOfMonth
+        let endDate = self.endDateOfMonth
+        
+        var currentDate = startDate
+        
+        var allDays: [Date] = []
+        while currentDate <= endDate{
+            allDays.append(currentDate)
+            if let newDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate){
+                currentDate = newDate
+            }
+           // currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
+        }
+        
+        return allDays
+        
     }
     
 }

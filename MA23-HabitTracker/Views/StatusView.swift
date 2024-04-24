@@ -10,39 +10,55 @@ import SwiftUI
 struct StatusView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @State var dateSet = Date()
-    var daysBetweenViews = 7
+    @State var daysBetweenViews = 7
     
     var body: some View {
-        VStack{
-            HStack{
-                Button(action: {
-                    dateSet = habitsVM.getDate(numberOfDaysFrom: -daysBetweenViews, from: dateSet)
-                }, label: {
-                    Image(systemName: "chevron.left")
-                })
-                .padding()
-                Spacer()
-                Text("Week \(habitsVM.getWeekNumber(from: dateSet))")
-                Spacer()
-                Button(action: {
-                    dateSet = habitsVM.getDate(numberOfDaysFrom: daysBetweenViews, from: dateSet)
-                }, label: {
-                    Image(systemName: "chevron.right")
-                })
-                .padding()
+        NavigationStack{
+            VStack{
+                
+                ZStack{ // remove if not used
+                    HStack{
+                        Image(systemName: "calendar")
+                            .font(.title)
+                            .padding()
+                            .onTapGesture {
+                                print("show Month")
+                                
+                            }
+                        Spacer()
+                    }
+                    HStack{
+                        Button(action: {
+                            dateSet = habitsVM.getDate(numberOfDaysFrom: -daysBetweenViews, from: dateSet)
+                        }, label: {
+                            Image(systemName: "chevron.left")
+                        })
+                        .padding()
+                        //  Spacer()
+                        Text("Week \(habitsVM.getWeekNumber(from: dateSet))")
+                            .frame(width: 150)
+                        //   Spacer()
+                        Button(action: {
+                            dateSet = habitsVM.getDate(numberOfDaysFrom: daysBetweenViews, from: dateSet)
+                        }, label: {
+                            Image(systemName: "chevron.right")
+                        })
+                        .padding()
+                    }
+                }
             }
-            
   
             List{
                 ForEach(habitsVM.habits){ habit in
                     //weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: Date()))
-                    Section{
-                        
-                        
-                        HabitStatsRowView(habitsVM: habitsVM, habit: habit, date: dateSet)
-                            .padding(.vertical, 10)
-                    }
                     
+                    Section{
+                        NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit)){
+                            HabitStatsRowView(habitsVM: habitsVM, habit: habit, date: dateSet)
+                                .padding(.vertical, 10)
+
+                        }
+                    }
                 }
             }
         }
@@ -59,8 +75,6 @@ struct HabitStatsRowView: View {
             Text("\(habit.name)")
             weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: date))
         }
-        
-        
     }
 }
 
