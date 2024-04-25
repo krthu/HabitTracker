@@ -18,44 +18,44 @@ class HabitsViewModel: ObservableObject{
         habits.append(Habit(name: "Löpa 5km", createdAt: Date()))
         habits.append(Habit(name: "Dricka vatten", createdAt: Date()))
         if let date = getDate(year: 2024, month: 3, day: 23){
-            toggleDone(habit: habits[0], onDate: date)
+            toggleDone(index: 0, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 11){
-            toggleDone(habit: habits[0], onDate: date)
+            toggleDone(index: 0, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 12){
-            toggleDone(habit: habits[0], onDate: date)
+            toggleDone(index: 0, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 20){
-            toggleDone(habit: habits[0], onDate: date)
+            toggleDone(index: 0, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 21){
-            toggleDone(habit: habits[0], onDate: date)
+            toggleDone(index: 0, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 22){
-            toggleDone(habit: habits[0], onDate: date)
+            toggleDone(index: 0, onDate: date)
         }
 
         if let date = getDate(year: 2024, month: 4, day: 23){
-            toggleDone(habit: habits[0], onDate: date)
+            toggleDone(index: 0, onDate: date)
         }
 
 
         
         if let date = getDate(year: 2024, month: 4, day: 14){
-            toggleDone(habit: habits[1], onDate: date)
+            toggleDone(index: 1, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 18){
-            toggleDone(habit: habits[1], onDate: date)
+            toggleDone(index: 1, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 20){
-            toggleDone(habit: habits[1], onDate: date)
+            toggleDone(index: 1, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 22){
-            toggleDone(habit: habits[1], onDate: date)
+            toggleDone(index: 1, onDate: date)
         }
         if let date = getDate(year: 2024, month: 4, day: 23){
-            toggleDone(habit: habits[1], onDate: date)
+            toggleDone(index: 1, onDate: date)
         }
         
     }
@@ -116,26 +116,44 @@ class HabitsViewModel: ObservableObject{
         habits.append(Habit(name: name, createdAt: Date()))
     }
     
-    func toggleDone(habit: Habit, onDate date: Date){
-//        habit.done(onDate: date)
-        if !isDone(habit: habit, on: date){
-            habit.doneDays.append(date)
+    func toggleDone(index: Int, onDate date: Date){
+//        habit.done(onDate: date) -> commented already
+        
+        
+//        if !isDone(habit: habit, on: date){
+//            habit.doneDays.append(date)
+//        }else{
+//            habit.doneDays.removeAll { habitDate in
+//                Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
+//            }
+//        }
+        
+        
+        if !isDone(index: index, on: date){
+            habits[index].doneDays.append(date)
         }else{
-            habit.doneDays.removeAll { habitDate in
+            habits[index].doneDays.removeAll { habitDate in
                 Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
             }
         }
+        
+        
     }
     
-    func isDone( habit: Habit, on date: Date) -> Bool{
-        return habit.doneDays.contains{ doneDate in
+    func isDone(index: Int, on date: Date) -> Bool{
+//        return habit.doneDays.contains{ doneDate in
+//            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+//        }
+        
+        return habits[index].doneDays.contains{ doneDate in
             Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
         }
+        //return true
     }
     
     func removeDone(habit: Habit, onDate date: Date){
-//        habit.done(onDate: date)
-        habit.doneDays.append(date)
+//        habit.done(onDate: date) -> commented already
+//        habit.doneDays.append(date)
     }
     
     func getProgress(for habit: Habit, in days: [Date]) -> Double{
@@ -144,12 +162,15 @@ class HabitsViewModel: ObservableObject{
         var daysDone = 0.0
         
         for day in days{
-            if isDone(habit: habit, on: day){
-                daysDone += 1
-            }
+//            if isDone(habit: habit, on: day){
+//                daysDone += 1
+//            }
             
         }
         return daysDone/Double(totalDays)
+    }
+    func getIndex(of habit: Habit) -> Int {
+        return habits.firstIndex(where: {$0.id == habit.id}) ?? 0
     }
     
     
