@@ -44,7 +44,8 @@ struct TodayListView: View {
                 }
                 
                 .sheet(isPresented: $showAddHabitSheet, content: {
-                    AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
+                   // AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
+                   // NewHabitView(habitsVM: habitsVM)
                 })
                 Spacer()
             }
@@ -94,10 +95,15 @@ struct HabitRow: View {
 //        .padding(.vertical, 10)
         VStack(alignment: .trailing) {
             HStack {
+
                 Image(systemName: habitsVM.isDone(habit: habit, on: Date()) ? "checkmark.circle.fill": "circle")
-                    .foregroundColor(.blue)
+                    //.foregroundColor(.blue)
                     .font(.largeTitle)
                     .padding()
+                   // .foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
+                   // .foregroundStyle(LinearGradient.bluePurpleGradient)
+                    .foregroundStyle(LinearGradient.blueLightBlueGradient)
+              
                 HStack {
                     VStack(alignment: .leading) {
                         Text(habit.name)
@@ -112,7 +118,8 @@ struct HabitRow: View {
                         ZStack{
                             Circle()
                                // .foregroundColor(.blue)
-                                .foregroundColor(Color(circleColor(for: habit.currentStreak)))
+                               // .foregroundColor(Color(circleColor(for: habit.currentStreak)))
+                                .foregroundStyle(LinearGradient.blueLightBlueGradient)
                                 .frame(width: 30, height: 30)
                             Text("\(habit.currentStreak)")
                                 .font(.callout)

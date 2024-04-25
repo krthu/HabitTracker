@@ -19,7 +19,7 @@ struct ContentView: View {
                             "\(getSymbol(for:Date())).square")
                             //"list.bullet")
                 }
-            NewHabitView()
+            NewHabitView(habitsVM: habitsVM)
                 .tabItem {
                     Label("Add Habit", systemImage:
                             "plus.circle")
@@ -31,11 +31,6 @@ struct ContentView: View {
                     Label("Habits", systemImage: "list.bullet.rectangle.portrait")
                 }
         }
-    
-        
-      
-        
-    
         
     }
     func getSymbol(for date: Date) -> String{
@@ -47,6 +42,27 @@ struct ContentView: View {
     }
 }
 
+//extension Color {
+//static let bluePurpleGradient = LinearGradient(
+//    gradient: Gradient(colors: [Color(UIColor(red: 73/255, green: 153/255, blue: 255/255, alpha: 1)), Color(UIColor(red: 79/255, green: 96/255, blue: 254/255, alpha: 1))]),
+//startPoint: .topLeading,
+//endPoint: .bottomTrailing
+//)
+//}
+
+extension LinearGradient {
+static let bluePurpleGradient = LinearGradient(
+    gradient: Gradient(colors: [Color(UIColor(red: 80/255, green: 156/255, blue: 255/255, alpha: 1)), Color(UIColor(red: 79/255, green: 96/255, blue: 254/255, alpha: 1))]),
+startPoint: .topLeading,
+endPoint: .bottomTrailing
+)
+    
+static let blueLightBlueGradient = LinearGradient(
+    gradient: Gradient(colors: [Color(UIColor(red: 80/255, green: 156/255, blue: 255/255, alpha: 1)), Color(UIColor(red: 107/255, green: 223/255, blue: 254/255, alpha: 1))]),
+startPoint: .topLeading,
+endPoint: .bottomTrailing
+)
+}
 
 #Preview {
     ContentView()

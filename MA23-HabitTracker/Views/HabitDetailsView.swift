@@ -133,6 +133,7 @@ struct CalendarDayView: View {
         .frame(width: 20, height: 30)
         .padding(8)
         .background(isDone ? Color.blue : Color.clear)
+        
         .foregroundColor(isDone ? Color.white : .primary)
         .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
     }
