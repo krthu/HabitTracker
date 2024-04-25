@@ -9,7 +9,8 @@ import SwiftUI
 
 struct HabitDetailsView: View {
     @ObservedObject var habitsVM: HabitsViewModel
-    @ObservedObject var habit: Habit
+    var habit: Habit
+    var habitIndex: Int
   //  @State var date = Date()
     @State var date: Date = {
         let calendar = Calendar.current
@@ -31,7 +32,7 @@ struct HabitDetailsView: View {
                         .bold()
                     Spacer()
                 }
-                habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
+                habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays, habitIndex: habitIndex)
                     .padding()
                     .background()
                    
@@ -45,14 +46,14 @@ struct HabitDetailsView: View {
 
 struct habitCalendarView: View{
     @ObservedObject var habitsVM: HabitsViewModel
-    @ObservedObject var habit: Habit
+    var habit: Habit
     @Binding var date: Date
     var doneDays: [Date]
-    
+    var habitIndex: Int
     var body: some View{
         VStack{
             CalendarHeader(date: $date)
-            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth)
+            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth, habitIndex: habitIndex)
         }
     }
 }
@@ -60,8 +61,9 @@ struct habitCalendarView: View{
 struct CalendarBodyView: View{
  
     @ObservedObject var habitsVM: HabitsViewModel
-    @ObservedObject var habit: Habit
+    var habit: Habit
     var days: [Date]
+    var habitIndex: Int
   
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     var body: some View{
@@ -78,7 +80,7 @@ struct CalendarBodyView: View{
             }
             ForEach(days, id: \.self) { day in
                 let dayNumber = Calendar.current.component(.day, from: day)
-                CalendarDayView(dayNumber: dayNumber, isDone: habitsVM.isDone(habit: habit, on: day))
+                CalendarDayView(dayNumber: dayNumber, isDone: habitsVM.isDone(index: habitIndex, on: day))
             }
         }
         
@@ -140,6 +142,6 @@ struct CalendarDayView: View {
 }
 
 #Preview {
-    HabitDetailsView(habitsVM: HabitsViewModel(), habit:  Habit(name: "Dricka vatten", createdAt: Date()))
+    HabitDetailsView(habitsVM: HabitsViewModel(), habit:  Habit(name: "Dricka vatten", createdAt: Date()), habitIndex: 0)
 }
 

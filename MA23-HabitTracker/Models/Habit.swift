@@ -7,16 +7,16 @@
 
 import Foundation
 
-class Habit: ObservableObject, Identifiable{
+struct Habit: Identifiable, Hashable{
     var id = UUID()
     var name: String
     var createdAt: Date
-    @Published var doneDays: [Date] = []
+    var doneDays: [Date] = []
     
-    init(name: String, createdAt: Date){
-        self.name = name
-        self.createdAt = createdAt
-    }
+//    init(name: String, createdAt: Date){
+//        self.name = name
+//        self.createdAt = createdAt
+//    }
     var currentStreak: Int{
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())

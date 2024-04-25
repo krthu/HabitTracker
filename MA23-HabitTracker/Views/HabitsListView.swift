@@ -10,7 +10,7 @@ import SwiftUI
 struct HabitsListView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @State var dateSet = Date()
-    @State var daysBetweenViews = 7
+    @State var daysBetween = 7
     
     var body: some View {
         NavigationStack{
@@ -29,17 +29,17 @@ struct HabitsListView: View {
                     }
                     HStack{
                         Button(action: {
-                            dateSet = habitsVM.getDate(numberOfDaysFrom: -daysBetweenViews, from: dateSet)
+                            dateSet = habitsVM.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
                         }, label: {
                             Image(systemName: "chevron.left")
                         })
                         .padding()
-                        //  Spacer()
+                       
                         Text("Week \(habitsVM.getWeekNumber(from: dateSet))")
                             .frame(width: 150)
-                        //   Spacer()
+                        
                         Button(action: {
-                            dateSet = habitsVM.getDate(numberOfDaysFrom: daysBetweenViews, from: dateSet)
+                            dateSet = habitsVM.getDate(numberOfDaysFrom: daysBetween, from: dateSet)
                         }, label: {
                             Image(systemName: "chevron.right")
                         })
@@ -47,16 +47,15 @@ struct HabitsListView: View {
                     }
                 }
             }
-  
+            
             List{
                 ForEach(habitsVM.habits){ habit in
-                    //weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: Date()))
                     
                     Section{
-                        NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit)){
+                        NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit, habitIndex: habitsVM.getIndex(of: habit) )){
                             HabitStatsRowView(habitsVM: habitsVM, habit: habit, date: dateSet)
                                 .padding(.vertical, 10)
-
+                            
                         }
                     }
                 }
@@ -67,8 +66,8 @@ struct HabitsListView: View {
 
 struct HabitStatsRowView: View {
     @ObservedObject var habitsVM: HabitsViewModel
-    @ObservedObject var habit: Habit
-    // Perhaps need a date
+    var habit: Habit
+
     var date: Date
     var body: some View {
         VStack(alignment: .leading){
@@ -77,16 +76,10 @@ struct HabitStatsRowView: View {
                 .font(.headline)
                 .bold()
             ProgressView(value: habitsVM.getProgress(for: habit, in: habitsVM.getWeekDays(for: date)))
-
-               
+            
             weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: date))
-             //   .frame(maxWidth: .infinity)
-             
+            
         }
-//        .onAppear(){
-//            print(String(habitsVM.getProgress(for: habit, in: habitsVM.getWeekDays(for: date))))
-      //  }
-       
     }
 }
 
@@ -94,10 +87,10 @@ struct HabitStatsRowView: View {
 
 struct weekView: View {
     @ObservedObject var habitsVM: HabitsViewModel
-    @ObservedObject var habit: Habit
+    var habit: Habit
     let calendar = Calendar.current
-//    let today = Date()
-//    let dateFormatter = DateFormatter()
+    //    let today = Date()
+    //    let dateFormatter = DateFormatter()
     var weekDays: [Date]
     
     var body: some View {
@@ -110,26 +103,11 @@ struct weekView: View {
                 
                 let components = calendar.dateComponents([.day], from: date)
                 if let dayNumber = components.day{
-                    DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isDone(habit: habit, on: date))
+                    DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isDone(index: habitsVM.getIndex(of: habit), on: date))
                 }
-                    
-                
-                
             }
-            
-//            ForEach(0..<7) { index in
- //               let day = calendar.date(byAdding: .day, value: index, to: calendar.startOfDay(for: today))!
-//                let dayNumber = calendar.component(.day, from: day)
-//                let weekday = calendar.component(.weekday, from: day)
-//                let weekdayName = dateFormatter.shortWeekdaySymbols[weekday - 1]
-//                
-//                DayView(dayNumber: dayNumber, weekdayName: weekdayName, isGreen: habitsVM.isDone(habit: habit, on: day))
-//
-//            }
-            
         }
     }
-
 }
 
 struct DayView: View {
@@ -138,9 +116,9 @@ struct DayView: View {
     var isGreen: Bool
     var body: some View {
         VStack{
-//            Text("\(dayNumber)")
-//                .font(.caption)
-//                .bold()
+//                        Text("\(dayNumber)")
+//                            .font(.caption)
+//                            .bold()
             
             Text("\(weekdayName)")
                 .foregroundColor(.secondary)
@@ -150,24 +128,12 @@ struct DayView: View {
             Image(systemName: isGreen ? "checkmark.circle.fill" : "circle")
                 .foregroundColor(.blue)
                 .font(.title)
-                
-                
+            
+            
         }
-      
+        
         .frame(width: 20)
         .padding(.horizontal, 8)
-       // .cornerRadius(10)
-        //.border(.black)
-     //   .background(isGreen ? Color.green : Color.clear)
-     //   .cornerRadius(10)
-      //  .overlay(
-      //      RoundedRectangle(cornerRadius: 10) // Lägg till en overlay med samma hörnradie
-        //        .stroke(Color.black, lineWidth: 1) // Lägg till en svart ram med en tjocklek på 1 punkt runt de rundade hörnen
-     //   )
-        
-        
-
-
     }
 }
 
