@@ -4,11 +4,12 @@
 //
 //  Created by Kristian Thun on 2024-04-22.
 //
-
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
     @StateObject var habitsVM = HabitsViewModel()
+    @Environment(\.modelContext) var modelContext
 
     var body: some View {
         TabView{
@@ -19,12 +20,12 @@ struct ContentView: View {
                             "\(getSymbol(for:Date())).square")
                             //"list.bullet")
                 }
-            NewHabitView(habitsVM: habitsVM)
-                .tabItem {
-                    Label("Add Habit", systemImage:
-                            "plus.circle")
-                            //"list.bullet")
-                }
+//            NewHabitView(habitsVM: habitsVM)
+//                .tabItem {
+//                    Label("Add Habit", systemImage:
+//                            "plus.circle")
+//                            //"list.bullet")
+//                }
             
             HabitsListView(habitsVM: habitsVM)
                 .tabItem{

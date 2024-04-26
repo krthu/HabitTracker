@@ -4,13 +4,14 @@
 //
 //  Created by Kristian Thun on 2024-04-23.
 //
-
+import SwiftData
 import SwiftUI
 
 struct HabitsListView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @State var dateSet = Date()
     @State var daysBetween = 7
+    @Query var habits: [Habit]
     
     var body: some View {
         NavigationStack{
@@ -49,7 +50,7 @@ struct HabitsListView: View {
             }
             
             List{
-                ForEach(habitsVM.habits){ habit in
+                ForEach(habits){ habit in
                     
                     Section{
                         NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit, habitIndex: habitsVM.getIndex(of: habit) )){
@@ -103,7 +104,7 @@ struct weekView: View {
                 
                 let components = calendar.dateComponents([.day], from: date)
                 if let dayNumber = components.day{
-                    DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isDone(index: habitsVM.getIndex(of: habit), on: date))
+                    DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isHabitDone(habit: habit, on: date))
                 }
             }
         }

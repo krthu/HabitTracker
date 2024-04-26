@@ -4,13 +4,14 @@
 //
 //  Created by Kristian Thun on 2024-04-22.
 //
-
+import SwiftData
 import SwiftUI
 
 struct TodayListView: View {
     
     @ObservedObject var habitsVM: HabitsViewModel
     @State var showAddHabitSheet = false
+    @Query var habits: [Habit]
     
     var body: some View {
         NavigationStack{
@@ -19,10 +20,10 @@ struct TodayListView: View {
                     .edgesIgnoringSafeArea(.all)
                 List{
                     
-                    ForEach(Array(habitsVM.habits.enumerated()), id: \.element) { index, habit in
+                    ForEach(Array(habits.enumerated()), id: \.element) { index, habit in
                         HabitRow(habitsVM: habitsVM, habit: habit, habitIndex: index)
                         .onTapGesture {
-                            habitsVM.toggleDone(index: index, onDate: Date())
+                            habitsVM.toggleHabitDone(habit: habit, on: Date())
                         }
                     }
                     .listRowSeparator(.hidden)
@@ -55,7 +56,7 @@ struct HabitRow: View {
         VStack(alignment: .trailing) {
             HStack {
 
-                Image(systemName: habitsVM.isDone(index: habitIndex, on: Date()) ? "checkmark.circle.fill": "circle")
+                Image(systemName: habitsVM.isHabitDone(habit: habit, on: Date()) ? "checkmark.circle.fill": "circle")
                     .foregroundColor(.blue)
                     .font(.largeTitle)
                     .padding()
@@ -76,7 +77,7 @@ struct HabitRow: View {
                     ZStack{
                         Circle()
                            // .foregroundColor(.blue)
-                           // .foregroundColor(Color(circleColor(for: habit.currentStreak)))
+                            .foregroundColor(Color(circleColor(for: habit.currentStreak)))
                             .foregroundStyle(LinearGradient.blueLightBlueGradient)
                             .frame(width: 30, height: 30)
                         Text("\(habit.currentStreak)")

@@ -140,6 +140,17 @@ class HabitsViewModel: ObservableObject{
         
     }
     
+    func toggleHabitDone(habit: Habit, on date: Date){
+        if !isHabitDone(habit: habit, on: date){
+            habit.doneDays.append(date)
+        } else {
+            habit.doneDays.removeAll { habitDate in
+                Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
+            }
+        }
+        print("\(isHabitDone(habit: habit, on: date))")
+    }
+    
     func isDone(index: Int, on date: Date) -> Bool{
 //        return habit.doneDays.contains{ doneDate in
 //            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
@@ -149,6 +160,12 @@ class HabitsViewModel: ObservableObject{
             Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
         }
         //return true
+    }
+    
+    func isHabitDone(habit: Habit, on date: Date) -> Bool{
+        return habit.doneDays.contains{ doneDate in
+            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+        }
     }
     
     func removeDone(habit: Habit, onDate date: Date){
