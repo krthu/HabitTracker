@@ -111,33 +111,33 @@ struct HabitRow: View {
 }
 
 // -----------------Remove if not in use----------
-struct AddHabitSheet: View {
-    
-    @ObservedObject var habitVM: HabitsViewModel
-    @State var name = ""
-    @Binding var showHabbitSheet: Bool
-    
-    var body: some View {
-        VStack{
-            Text("New Habit")
-                .font(.title)
-                .bold()
-                .padding()
-            Form{
-                Section("Habit"){
-                    TextField("Habit", text: $name)
-                }
-                
-            }
-            Button("Save"){
-                if !name.isEmpty{
-                    habitVM.addHabit(withName: name)
-                }
-                showHabbitSheet = false
-            }
-        }
-    }
-}
+//struct AddHabitSheet: View {
+//    
+//    @ObservedObject var habitVM: HabitsViewModel
+//    @State var name = ""
+//    @Binding var showHabbitSheet: Bool
+//    
+//    var body: some View {
+//        VStack{
+//            Text("New Habit")
+//                .font(.title)
+//                .bold()
+//                .padding()
+//            Form{
+//                Section("Habit"){
+//                    TextField("Habit", text: $name)
+//                }
+//                
+//            }
+//            Button("Save"){
+//                if !name.isEmpty{
+//                    habitVM.addHabit(withName: name)
+//                }
+//                showHabbitSheet = false
+//            }
+//        }
+//    }
+//}
     
     #Preview {
         TodayListView(habitsVM: HabitsViewModel())

@@ -76,7 +76,7 @@ struct HabitStatsRowView: View {
             Text("\(habit.name)")
                 .font(.headline)
                 .bold()
-            ProgressView(value: habitsVM.getProgress(for: habit, in: habitsVM.getWeekDays(for: date)))
+            ProgressView(value: habitsVM.getProgress(for: habit, inWeekOf: date))
             
             weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: date))
             

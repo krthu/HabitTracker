@@ -45,7 +45,6 @@ class Habit: Identifiable, Hashable{
                     break
                 }
             }
-            
         }
         return streak
     }

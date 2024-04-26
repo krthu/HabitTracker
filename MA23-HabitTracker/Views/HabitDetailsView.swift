@@ -44,6 +44,9 @@ struct HabitDetailsView: View {
     }
 }
 
+
+
+
 struct habitCalendarView: View{
     @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit

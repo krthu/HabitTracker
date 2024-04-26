@@ -11,61 +11,15 @@ class HabitsViewModel: ObservableObject{
     @Published var habits: [Habit] = []
     
     init() {
-        addMockData()
-    }
-    
-    func addMockData(){
-        habits.append(Habit(name: "Löpa 5km", createdAt: Date()))
-        habits.append(Habit(name: "Dricka vatten", createdAt: Date()))
-        if let date = getDate(year: 2024, month: 3, day: 23){
-            toggleDone(index: 0, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 11){
-            toggleDone(index: 0, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 12){
-            toggleDone(index: 0, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 20){
-            toggleDone(index: 0, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 21){
-            toggleDone(index: 0, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 22){
-            toggleDone(index: 0, onDate: date)
-        }
 
-        if let date = getDate(year: 2024, month: 4, day: 23){
-            toggleDone(index: 0, onDate: date)
-        }
-
-
-        
-        if let date = getDate(year: 2024, month: 4, day: 14){
-            toggleDone(index: 1, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 18){
-            toggleDone(index: 1, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 20){
-            toggleDone(index: 1, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 22){
-            toggleDone(index: 1, onDate: date)
-        }
-        if let date = getDate(year: 2024, month: 4, day: 23){
-            toggleDone(index: 1, onDate: date)
-        }
-        
     }
-    
-    func getDate(year: Int, month: Int, day: Int) -> Date?{
-        let calendar = Calendar.current
-        let datecomponent = DateComponents(year: year, month: month, day: day)
-        return calendar.date(from: datecomponent)
-        
-    }
+
+//    func getDate(year: Int, month: Int, day: Int) -> Date?{
+//        let calendar = Calendar.current
+//        let datecomponent = DateComponents(year: year, month: month, day: day)
+//        return calendar.date(from: datecomponent)
+//        
+//    }
     
     func getWeekDays(for date: Date) -> [Date] {
         let calendar = Calendar.current
@@ -102,7 +56,7 @@ class HabitsViewModel: ObservableObject{
         return daysInMonth
     }
     
-    func getDate(numberOfDaysFrom: Int, from startDate: Date) -> Date{
+    func getDate(numberOfDaysFrom: Int, from startDate: Date) -> Date {
         let calendar = Calendar.current
         var dateComponents = DateComponents()
         dateComponents.day = numberOfDaysFrom
@@ -112,33 +66,9 @@ class HabitsViewModel: ObservableObject{
         return startDate // Kanske borde vara nil
     }
     
-    func addHabit(withName name: String){
-        habits.append(Habit(name: name, createdAt: Date()))
-    }
-    
-    func toggleDone(index: Int, onDate date: Date){
-//        habit.done(onDate: date) -> commented already
-        
-        
-//        if !isDone(habit: habit, on: date){
-//            habit.doneDays.append(date)
-//        }else{
-//            habit.doneDays.removeAll { habitDate in
-//                Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
-//            }
-//        }
-        
-        
-        if !isDone(index: index, on: date){
-            habits[index].doneDays.append(date)
-        }else{
-            habits[index].doneDays.removeAll { habitDate in
-                Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
-            }
-        }
-        
-        
-    }
+//    func addHabit(withName name: String){
+//        habits.append(Habit(name: name, createdAt: Date()))
+//    }
     
     func toggleHabitDone(habit: Habit, on date: Date){
         if !isHabitDone(habit: habit, on: date){
@@ -151,46 +81,30 @@ class HabitsViewModel: ObservableObject{
         print("\(isHabitDone(habit: habit, on: date))")
     }
     
-    func isDone(index: Int, on date: Date) -> Bool{
-//        return habit.doneDays.contains{ doneDate in
-//            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
-//        }
-        
-        return habits[index].doneDays.contains{ doneDate in
-            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
-        }
-        //return true
-    }
-    
     func isHabitDone(habit: Habit, on date: Date) -> Bool{
         return habit.doneDays.contains{ doneDate in
             Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
         }
     }
     
-    func removeDone(habit: Habit, onDate date: Date){
-//        habit.done(onDate: date) -> commented already
-//        habit.doneDays.append(date)
-    }
-    
-    func getProgress(for habit: Habit, in days: [Date]) -> Double{
-       // var succes = 0.0
-        var totalDays = days.count
-        var daysDone = 0.0
-        
-        for day in days{
-//            if isDone(habit: habit, on: day){
-//                daysDone += 1
-//            }
-            
-        }
-        return daysDone/Double(totalDays)
-    }
+
     func getIndex(of habit: Habit) -> Int {
         return habits.firstIndex(where: {$0.id == habit.id}) ?? 0
     }
     
-    
+    func getProgress(for habit: Habit, inWeekOf date: Date) -> Double {
+        let days = getWeekDays(for: date)
+        
+        let totalDays = days.count
+        var daysDone = 0.0
+        
+        for day in days{
+            if isHabitDone(habit: habit, on: day){
+                daysDone += 1
+            }
+        }
+        return daysDone/Double(totalDays)
+    }
 }
 
 extension Date {
@@ -220,11 +134,8 @@ extension Date {
             if let newDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate){
                 currentDate = newDate
             }
-           // currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)
         }
-        
         return allDays
-        
     }
     
     var monthName: String{
@@ -233,7 +144,6 @@ extension Date {
         return dateFormatter.string(from: self)
         
     }
-    
     
     func nextMonth(_ monthsToMove: Int = 1) -> Date? {
         let calendar = Calendar.current
@@ -244,9 +154,6 @@ extension Date {
         let calendar = Calendar.current
         return calendar.date(byAdding: .month, value: -monthsToMove, to: self)
     }
-    
-
-    
 }
 
 
