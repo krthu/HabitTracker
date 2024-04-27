@@ -8,6 +8,7 @@
 import Foundation
 
 class HabitsViewModel: ObservableObject{
+    // -> Handled by swift Data
     @Published var habits: [Habit] = []
     
     init() {
@@ -21,6 +22,8 @@ class HabitsViewModel: ObservableObject{
 //        
 //    }
     
+    
+    // -> DateManager
     func getWeekDays(for date: Date) -> [Date] {
         let calendar = Calendar.current
         let interval = calendar.dateInterval(of: .weekOfYear, for: date)
@@ -34,13 +37,14 @@ class HabitsViewModel: ObservableObject{
         }
         return weekDays
     }
-    
+    // -> DateManager
     func getWeekNumber(from date: Date) -> Int{
         let calender = Calendar.current
         let weekNumber = calender.component(.weekOfYear, from: date)
         return weekNumber
     }
     
+    // -> DateManager
     func getDaysOfMonth(from date: Date) -> [Date]{
         let calendar = Calendar.current
         var daysInMonth: [Date] = []
@@ -56,6 +60,7 @@ class HabitsViewModel: ObservableObject{
         return daysInMonth
     }
     
+    // -> DateManager
     func getDate(numberOfDaysFrom: Int, from startDate: Date) -> Date {
         let calendar = Calendar.current
         var dateComponents = DateComponents()
@@ -70,6 +75,7 @@ class HabitsViewModel: ObservableObject{
 //        habits.append(Habit(name: name, createdAt: Date()))
 //    }
     
+    // -> ViewModel / Model
     func toggleHabitDone(habit: Habit, on date: Date){
         if !isHabitDone(habit: habit, on: date){
             habit.doneDays.append(date)
@@ -81,17 +87,19 @@ class HabitsViewModel: ObservableObject{
         print("\(isHabitDone(habit: habit, on: date))")
     }
     
+    // -> ViewModel / Model
     func isHabitDone(habit: Habit, on date: Date) -> Bool{
         return habit.doneDays.contains{ doneDate in
             Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
         }
     }
     
-
+    // ViewModel if needed
     func getIndex(of habit: Habit) -> Int {
         return habits.firstIndex(where: {$0.id == habit.id}) ?? 0
     }
     
+    // -> ViewModel / Model
     func getProgress(for habit: Habit, inWeekOf date: Date) -> Double {
         let days = getWeekDays(for: date)
         
@@ -107,6 +115,7 @@ class HabitsViewModel: ObservableObject{
     }
 }
 
+ // -> Date Manager
 extension Date {
     var startDateOfMonth: Date {
         guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: self)) else {
@@ -138,7 +147,7 @@ extension Date {
         return allDays
     }
     
-    var monthName: String{
+    var monthName: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"
         return dateFormatter.string(from: self)

@@ -33,7 +33,7 @@ struct HabitDetailsView: View {
                     Spacer()
                 }
                 habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays, habitIndex: habitIndex)
-                    .padding()
+                    //.padding()
                     .background()
                    
                     .cornerRadius(20)
@@ -56,7 +56,11 @@ struct habitCalendarView: View{
     var body: some View{
         VStack{
             CalendarHeader(date: $date)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.white)
+                .background(LinearGradient.bluePurpleGradient)
             CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth, habitIndex: habitIndex)
+                .padding(10)
         }
     }
 }

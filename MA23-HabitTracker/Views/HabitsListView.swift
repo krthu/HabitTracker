@@ -97,12 +97,13 @@ struct weekView: View {
     var body: some View {
         HStack {
             ForEach(weekDays, id: \.self) { date in
+                // Break out to DateManager
                 let dateFormatter = DateFormatter()
                 let weekday = calendar.component(.weekday, from: date)
                 let dayName = dateFormatter.shortWeekdaySymbols[weekday - 1]
-                
-                
                 let components = calendar.dateComponents([.day], from: date)
+                
+                
                 if let dayNumber = components.day{
                     DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isHabitDone(habit: habit, on: date))
                 }
