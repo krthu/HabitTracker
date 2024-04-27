@@ -4,13 +4,14 @@
 //
 //  Created by Kristian Thun on 2024-04-23.
 //
-
+import SwiftData
 import SwiftUI
 
 struct HabitsListView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @State var dateSet = Date()
     @State var daysBetween = 7
+    @Query var habits: [Habit]
     
     var body: some View {
         NavigationStack{
@@ -49,7 +50,7 @@ struct HabitsListView: View {
             }
             
             List{
-                ForEach(habitsVM.habits){ habit in
+                ForEach(habits){ habit in
                     
                     Section{
                         NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit, habitIndex: habitsVM.getIndex(of: habit) )){
@@ -75,7 +76,7 @@ struct HabitStatsRowView: View {
             Text("\(habit.name)")
                 .font(.headline)
                 .bold()
-            ProgressView(value: habitsVM.getProgress(for: habit, in: habitsVM.getWeekDays(for: date)))
+            ProgressView(value: habitsVM.getProgress(for: habit, inWeekOf: date))
             
             weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: date))
             
@@ -96,14 +97,15 @@ struct weekView: View {
     var body: some View {
         HStack {
             ForEach(weekDays, id: \.self) { date in
+                // Break out to DateManager
                 let dateFormatter = DateFormatter()
                 let weekday = calendar.component(.weekday, from: date)
                 let dayName = dateFormatter.shortWeekdaySymbols[weekday - 1]
-                
-                
                 let components = calendar.dateComponents([.day], from: date)
+                
+                
                 if let dayNumber = components.day{
-                    DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isDone(index: habitsVM.getIndex(of: habit), on: date))
+                    DayView(dayNumber: dayNumber, weekdayName: dayName, isGreen: habitsVM.isHabitDone(habit: habit, on: date))
                 }
             }
         }

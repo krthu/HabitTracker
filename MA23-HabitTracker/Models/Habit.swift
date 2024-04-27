@@ -4,19 +4,28 @@
 //
 //  Created by Kristian Thun on 2024-04-22.
 //
-
+import SwiftData
 import Foundation
 
-struct Habit: Identifiable, Hashable{
-    var id = UUID()
+@Model
+class Habit: Identifiable, Hashable{
+    var id: UUID
     var name: String
     var createdAt: Date
-    var doneDays: [Date] = []
+    var doneDays: [Date]
+    
     
 //    init(name: String, createdAt: Date){
 //        self.name = name
 //        self.createdAt = createdAt
 //    }
+    init(id: UUID = UUID(), name: String, createdAt: Date, doneDays: [Date] = []) {
+        self.id = id
+        self.name = name
+        self.createdAt = createdAt
+        self.doneDays = doneDays
+    }
+    
     var currentStreak: Int{
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
@@ -36,7 +45,6 @@ struct Habit: Identifiable, Hashable{
                     break
                 }
             }
-            
         }
         return streak
     }

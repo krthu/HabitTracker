@@ -33,7 +33,7 @@ struct HabitDetailsView: View {
                     Spacer()
                 }
                 habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays, habitIndex: habitIndex)
-                    .padding()
+                    //.padding()
                     .background()
                    
                     .cornerRadius(20)
@@ -44,6 +44,9 @@ struct HabitDetailsView: View {
     }
 }
 
+
+
+
 struct habitCalendarView: View{
     @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
@@ -53,7 +56,11 @@ struct habitCalendarView: View{
     var body: some View{
         VStack{
             CalendarHeader(date: $date)
+                .frame(maxWidth: .infinity)
+                .foregroundColor(.white)
+                .background(LinearGradient.bluePurpleGradient)
             CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth, habitIndex: habitIndex)
+                .padding(10)
         }
     }
 }
@@ -80,7 +87,7 @@ struct CalendarBodyView: View{
             }
             ForEach(days, id: \.self) { day in
                 let dayNumber = Calendar.current.component(.day, from: day)
-                CalendarDayView(dayNumber: dayNumber, isDone: habitsVM.isDone(index: habitIndex, on: day))
+                CalendarDayView(dayNumber: dayNumber, isDone: habitsVM.isHabitDone(habit: habit, on: day))
             }
         }
         

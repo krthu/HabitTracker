@@ -12,6 +12,8 @@ struct NewHabitView: View {
     @State var name: String = ""
     @State private var selectedTime = Date()
     @State var isReminderOn: Bool = false
+    @Environment(\.modelContext) var modelContext
+//    @Bindable var habit: Habit
     
     var body: some View {
        // NavigationStack{
@@ -19,15 +21,19 @@ struct NewHabitView: View {
                 Color(.secondarySystemBackground)
                     .ignoresSafeArea()
                 VStack(alignment: .leading){
+                    //HabitNameCard(name: $name)
                     HabitNameCard(name: $name)
                     
                     ReminderCard(selectedTime: $selectedTime, isReminderOn: $isReminderOn )
                 
                     Button(action: {
-                        habitsVM.addHabit(withName: name)
+                        //habitsVM.addHabit(withName: name)
+                        let newHabit = Habit(name: name, createdAt: Date())
+                        modelContext.insert(newHabit)
                         isReminderOn = false
                         selectedTime = Date()
                         name = ""
+                        
                     }, label: {
                         Text("Add new Habit")
                             .frame(maxWidth: .infinity)
@@ -99,6 +105,6 @@ struct HabitNameCard: View {
     }
 }
 
-#Preview {
-    NewHabitView(habitsVM: HabitsViewModel())
-}
+//#Preview {
+//    NewHabitView(habitsVM: HabitsViewModel())
+//}
