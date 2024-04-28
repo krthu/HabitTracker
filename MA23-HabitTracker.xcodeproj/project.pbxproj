@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6D9D596A2BDD832E00B0892C /* LargeButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D59692BDD832E00B0892C /* LargeButtonLabel.swift */; };
+		6D9D596D2BDE2F5500B0892C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D596C2BDE2F5500B0892C /* NotificationManager.swift */; };
 		6DAAB0662BD6419D00495CC6 /* MA23_HabitTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0652BD6419D00495CC6 /* MA23_HabitTrackerApp.swift */; };
 		6DAAB0682BD6419D00495CC6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0672BD6419D00495CC6 /* ContentView.swift */; };
 		6DAAB06A2BD6419E00495CC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DAAB0692BD6419E00495CC6 /* Assets.xcassets */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		6D9D59692BDD832E00B0892C /* LargeButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButtonLabel.swift; sourceTree = "<group>"; };
+		6D9D596C2BDE2F5500B0892C /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		6DAAB0622BD6419D00495CC6 /* MA23-HabitTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MA23-HabitTracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DAAB0652BD6419D00495CC6 /* MA23_HabitTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MA23_HabitTrackerApp.swift; sourceTree = "<group>"; };
 		6DAAB0672BD6419D00495CC6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +87,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D9D596B2BDE2EEA00B0892C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6D9D596C2BDE2F5500B0892C /* NotificationManager.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		6DAAB0592BD6419D00495CC6 = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +118,7 @@
 		6DAAB0642BD6419D00495CC6 /* MA23-HabitTracker */ = {
 			isa = PBXGroup;
 			children = (
+				6D9D596B2BDE2EEA00B0892C /* Helpers */,
 				6DAAB0952BD65C4F00495CC6 /* ViewModels */,
 				6DAAB0942BD659E100495CC6 /* Views */,
 				6DAAB08F2BD647E500495CC6 /* Models */,
@@ -304,6 +315,7 @@
 			files = (
 				6DAAB0992BD7B25600495CC6 /* HabitsListView.swift in Sources */,
 				6DAAB0972BD65CA000495CC6 /* HabitsViewModel.swift in Sources */,
+				6D9D596D2BDE2F5500B0892C /* NotificationManager.swift in Sources */,
 				6DAAB09D2BD98D8000495CC6 /* NewHabitView.swift in Sources */,
 				6DAAB0912BD6480100495CC6 /* Habit.swift in Sources */,
 				6DAAB0932BD659CE00495CC6 /* TodayListView.swift in Sources */,

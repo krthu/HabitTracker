@@ -10,9 +10,13 @@ import Foundation
 class HabitsViewModel: ObservableObject{
     // -> Handled by swift Data
     @Published var habits: [Habit] = []
+    var notifikationsManager = NotificationManager()
+//    @Published var isPermissionGranted: Bool = false
     
     init() {
-
+//        notifikationsManager.requestAuthorization { isAllowed in
+//            self.isPermissionGranted = isAllowed
+//        }
     }
 
 //    func getDate(year: Int, month: Int, day: Int) -> Date?{
@@ -21,6 +25,51 @@ class HabitsViewModel: ObservableObject{
 //        return calendar.date(from: datecomponent)
 //        
 //    }
+    
+    func toggleReminder(habit: Habit) {
+//        if isPermissionGranted {
+//            habit.reminderSet.toggle()
+//        } else {
+        notifikationsManager.requestAuthorization{ didAllow in
+            DispatchQueue.main.async {
+                if didAllow{
+//                    self.isPermissionGranted = true
+                    habit.reminderSet = true
+                    habit.reminderDate = Date()
+                    self.setNotifikation(habit: habit)
+                } else {
+//                    self.isPermissionGranted = false
+                    habit.reminderSet = false
+
+                    self.notifikationsManager.removeNotifikation(with: habit.id.uuidString)
+                }
+            }
+            
+        }
+   //     }
+//        notifikationsManager.requestAuthorization{ didAllow in
+//            if didAllow {
+//                self.isPermissionGranted = true
+//            } else {
+//                self.isPermissionGranted = false
+//            }
+//        }
+    }
+    
+    func setNotifikation(habit: Habit){
+        let title = "Don´t forget \(habit.name)!"
+        let subtitle = habit.name
+        
+
+        let dateComponents = getHourMinuteDateComponents(from: habit.reminderDate)
+        notifikationsManager.addNotifikation(title: title, subTitle: subtitle, dateComponents: dateComponents, identifier: habit.id.uuidString)
+
+        
+    }
+    
+    func removeNotifikation(habit: Habit){
+        notifikationsManager.removeNotifikation(with: habit.id.uuidString)
+    }
     
     
     // -> DateManager
@@ -58,6 +107,11 @@ class HabitsViewModel: ObservableObject{
             }
         }
         return daysInMonth
+    }
+    
+    func getHourMinuteDateComponents(from date: Date) -> DateComponents{
+        let calendar = Calendar.current
+        return calendar.dateComponents([.hour, .minute], from: date)
     }
     
     // -> DateManager

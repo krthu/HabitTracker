@@ -69,6 +69,7 @@ struct HabitDetailsView: View {
     }
     
     func deleteHabit(habit: Habit){
+        habitsVM.removeNotifikation(habit: habit)
         modelContext.delete(habit)
         presentationMode.wrappedValue.dismiss()
     }

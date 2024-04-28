@@ -32,6 +32,14 @@ struct ContentView: View {
                     Label("Habits", systemImage: "list.bullet.rectangle.portrait")
                 }
         }
+        .onAppear{
+//            do {
+//                try modelContext.delete(model: Habit.self)
+//            //    try modelContext.delete(model: City.self)
+//            } catch {
+//                print("Failed to clear all Country and City data.")
+//            }
+        }
         
     }
     func getSymbol(for date: Date) -> String{

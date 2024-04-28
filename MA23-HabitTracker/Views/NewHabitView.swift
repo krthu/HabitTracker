@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewHabitView: View {
+    
     @ObservedObject var habitsVM: HabitsViewModel
 //    @State var name: String = ""
     @State private var selectedTime = Date()
@@ -25,7 +26,7 @@ struct NewHabitView: View {
                 //HabitNameCard(name: $name)
                 HabitNameCard(name: $habit.name)
                 
-                ReminderCard(selectedTime: $selectedTime, isReminderOn: $isReminderOn )
+                ReminderCard(habitsVM: habitsVM, selectedTime: $selectedTime, isReminderOn: $isReminderOn, habit: habit)
             
                 Button(action: {
                     //habitsVM.addHabit(withName: name)
@@ -54,6 +55,7 @@ struct NewHabitView: View {
             }
         }
         
+        
     }
     func deleteEmptyHabit(){
         if habit.name == "" {
@@ -63,9 +65,10 @@ struct NewHabitView: View {
 }
 
 struct ReminderCard: View {
-
+    var habitsVM: HabitsViewModel
     @Binding var selectedTime: Date
     @Binding var isReminderOn: Bool
+    @Bindable var habit: Habit
     
     var body: some View {
         VStack(alignment: .leading){
@@ -73,11 +76,20 @@ struct ReminderCard: View {
                 .font(.headline)
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Toggle("Set a reminder", isOn: $isReminderOn)
+            Toggle("Set a reminder", isOn: $habit.reminderSet)
                 .tint(LinearGradient.bluePurpleGradient)
-            if isReminderOn{
-            DatePicker("Pick a time", selection: $selectedTime, displayedComponents: .hourAndMinute)
-                .disabled(!isReminderOn)
+                .onChange(of: habit.reminderSet) { oldValue, newValue in
+                    if newValue {
+                        habitsVM.toggleReminder(habit: habit)
+                    }
+                }
+            if habit.reminderSet{
+                DatePicker("Pick a time", selection: $habit.reminderDate, displayedComponents: .hourAndMinute)
+                    .disabled(!habit.reminderSet)
+                    .onChange(of: habit.reminderDate) { oldValue, newValue in
+                        print(newValue.timeIntervalSince1970)
+                        habitsVM.setNotifikation(habit: habit)
+                    }
          
             //    .foregroundColor(isReminderOn ? .primary : .secondary)
             }
