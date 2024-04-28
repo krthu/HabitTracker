@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6D9D596A2BDD832E00B0892C /* LargeButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D59692BDD832E00B0892C /* LargeButtonLabel.swift */; };
 		6DAAB0662BD6419D00495CC6 /* MA23_HabitTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0652BD6419D00495CC6 /* MA23_HabitTrackerApp.swift */; };
 		6DAAB0682BD6419D00495CC6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0672BD6419D00495CC6 /* ContentView.swift */; };
 		6DAAB06A2BD6419E00495CC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DAAB0692BD6419E00495CC6 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6D9D59692BDD832E00B0892C /* LargeButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButtonLabel.swift; sourceTree = "<group>"; };
 		6DAAB0622BD6419D00495CC6 /* MA23-HabitTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MA23-HabitTracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DAAB0652BD6419D00495CC6 /* MA23_HabitTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MA23_HabitTrackerApp.swift; sourceTree = "<group>"; };
 		6DAAB0672BD6419D00495CC6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				6DAAB0982BD7B25600495CC6 /* HabitsListView.swift */,
 				6DAAB09A2BD8DA8400495CC6 /* HabitDetailsView.swift */,
 				6DAAB09C2BD98D8000495CC6 /* NewHabitView.swift */,
+				6D9D59692BDD832E00B0892C /* LargeButtonLabel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				6DAAB09B2BD8DA8400495CC6 /* HabitDetailsView.swift in Sources */,
 				6DAAB0682BD6419D00495CC6 /* ContentView.swift in Sources */,
 				6DAAB0662BD6419D00495CC6 /* MA23_HabitTrackerApp.swift in Sources */,
+				6D9D596A2BDD832E00B0892C /* LargeButtonLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

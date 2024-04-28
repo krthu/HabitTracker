@@ -9,47 +9,56 @@ import SwiftUI
 
 struct NewHabitView: View {
     @ObservedObject var habitsVM: HabitsViewModel
-    @State var name: String = ""
+//    @State var name: String = ""
     @State private var selectedTime = Date()
     @State var isReminderOn: Bool = false
+    @Bindable var habit: Habit
     @Environment(\.modelContext) var modelContext
 //    @Bindable var habit: Habit
     
     var body: some View {
        // NavigationStack{
-            ZStack{
-                Color(.secondarySystemBackground)
-                    .ignoresSafeArea()
-                VStack(alignment: .leading){
-                    //HabitNameCard(name: $name)
-                    HabitNameCard(name: $name)
-                    
-                    ReminderCard(selectedTime: $selectedTime, isReminderOn: $isReminderOn )
+        ZStack{
+            Color(.secondarySystemBackground)
+                .ignoresSafeArea()
+            VStack(alignment: .leading){
+                //HabitNameCard(name: $name)
+                HabitNameCard(name: $habit.name)
                 
-                    Button(action: {
-                        //habitsVM.addHabit(withName: name)
-                        let newHabit = Habit(name: name, createdAt: Date())
-                        modelContext.insert(newHabit)
-                        isReminderOn = false
-                        selectedTime = Date()
-                        name = ""
-                        
-                    }, label: {
-                        Text("Add new Habit")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                           // .background(Color.bluePurpleGradient)
-                           // .background(LinearGradient.bluePurpleGradient)
-                            .background(LinearGradient.blueLightBlueGradient)
-                            .foregroundColor(.white)
-                            .bold()
-                            .cornerRadius(20)
-                    })
-
+                ReminderCard(selectedTime: $selectedTime, isReminderOn: $isReminderOn )
+            
+                Button(action: {
+                    //habitsVM.addHabit(withName: name)
+//                       let newHabit = Habit(name: name, createdAt: Date())
+//                       modelContext.insert(newHabit)
                     
-                }
-                .padding()
+//                        isReminderOn = false
+//                        selectedTime = Date()
+//                        name = ""
+                    
+                }, label: {
+                    Text("Add new Habit")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                       // .background(Color.bluePurpleGradient)
+                       // .background(LinearGradient.bluePurpleGradient)
+                        .background(LinearGradient.blueLightBlueGradient)
+                        .foregroundColor(.white)
+                        .bold()
+                        .cornerRadius(20)
+                })
             }
+            .padding()
+            .onDisappear{
+                deleteEmptyHabit()
+            }
+        }
+        
+    }
+    func deleteEmptyHabit(){
+        if habit.name == "" {
+            modelContext.delete(habit)
+        }
     }
 }
 
@@ -78,6 +87,7 @@ struct ReminderCard: View {
         .cornerRadius(10)
  
     }
+    // Move to TimeManager or VM
     var timeFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
