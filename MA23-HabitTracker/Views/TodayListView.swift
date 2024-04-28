@@ -12,14 +12,14 @@ struct TodayListView: View {
     
     
     @ObservedObject var habitsVM: HabitsViewModel
-    @State var showAddHabitSheet = false
+//    @State var showAddHabitSheet = false
     @Query var habits: [Habit]
     @State private var path = [Habit]()
     
     var body: some View {
         NavigationStack(path: $path){
             ZStack{
-                Color(UIColor.systemGroupedBackground) // Byt ut mot önskad bakgrundsfärg.
+                Color(UIColor.systemGroupedBackground)
                     .edgesIgnoringSafeArea(.all)
                 List{
                     
@@ -43,11 +43,11 @@ struct TodayListView: View {
                        // showAddHabitSheet = true
                     }
                 }
-                .sheet(isPresented: $showAddHabitSheet, content: {
-                   // AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
-                    
-                  //  NewHabitView(habitsVM: habitsVM)
-                })
+//                .sheet(isPresented: $showAddHabitSheet, content: {
+//                   // AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
+//                    
+//                  //  NewHabitView(habitsVM: habitsVM)
+//                })
                 Spacer()
             }
         }
