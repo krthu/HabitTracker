@@ -12,6 +12,7 @@ struct NewHabitView: View {
     @State var name: String = ""
     @State private var selectedTime = Date()
     @State var isReminderOn: Bool = false
+    @Bindable var habit: Habit
     @Environment(\.modelContext) var modelContext
 //    @Bindable var habit: Habit
     
@@ -22,17 +23,18 @@ struct NewHabitView: View {
                     .ignoresSafeArea()
                 VStack(alignment: .leading){
                     //HabitNameCard(name: $name)
-                    HabitNameCard(name: $name)
+                    HabitNameCard(name: $habit.name)
                     
                     ReminderCard(selectedTime: $selectedTime, isReminderOn: $isReminderOn )
                 
                     Button(action: {
                         //habitsVM.addHabit(withName: name)
-                        let newHabit = Habit(name: name, createdAt: Date())
-                        modelContext.insert(newHabit)
-                        isReminderOn = false
-                        selectedTime = Date()
-                        name = ""
+ //                       let newHabit = Habit(name: name, createdAt: Date())
+ //                       modelContext.insert(newHabit)
+                        
+//                        isReminderOn = false
+//                        selectedTime = Date()
+//                        name = ""
                         
                     }, label: {
                         Text("Add new Habit")
@@ -78,6 +80,7 @@ struct ReminderCard: View {
         .cornerRadius(10)
  
     }
+    // Move to TimeManager or VM
     var timeFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .short

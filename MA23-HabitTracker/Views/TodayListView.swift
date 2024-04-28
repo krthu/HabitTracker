@@ -8,13 +8,16 @@ import SwiftData
 import SwiftUI
 
 struct TodayListView: View {
+    @Environment(\.modelContext) var modelContext
+    
     
     @ObservedObject var habitsVM: HabitsViewModel
     @State var showAddHabitSheet = false
     @Query var habits: [Habit]
+    @State private var path = [Habit]()
     
     var body: some View {
-        NavigationStack{
+        NavigationStack(path: $path){
             ZStack{
                 Color(UIColor.systemGroupedBackground) // Byt ut mot önskad bakgrundsfärg.
                     .edgesIgnoringSafeArea(.all)
@@ -31,18 +34,28 @@ struct TodayListView: View {
                 .listStyle(PlainListStyle())
                 .background(Color.clear)
                 .navigationTitle("Today")
+                .navigationDestination(for: Habit.self){
+                    habit in NewHabitView(habitsVM: habitsVM, habit: habit)
+                }
                 .toolbar{
                     Button("Hello", systemImage: "plus"){
-                        showAddHabitSheet = true
+                        addHabit()
+                       // showAddHabitSheet = true
                     }
                 }
                 .sheet(isPresented: $showAddHabitSheet, content: {
                    // AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
-                    NewHabitView(habitsVM: habitsVM)
+                    
+                  //  NewHabitView(habitsVM: habitsVM)
                 })
                 Spacer()
             }
         }
+    }
+    func addHabit(){
+        let newHabit = Habit(name: "", createdAt: Date())
+        modelContext.insert(newHabit)
+        path.append(newHabit)
     }
 }
 

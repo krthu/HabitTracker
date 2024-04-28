@@ -9,6 +9,10 @@ import SwiftUI
 
 struct HabitDetailsView: View {
     @ObservedObject var habitsVM: HabitsViewModel
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var path = [Habit]()
+    
     var habit: Habit
     var habitIndex: Int
   //  @State var date = Date()
@@ -20,7 +24,7 @@ struct HabitDetailsView: View {
     }()
     
     var body: some View {
-        
+
         ZStack{
             Color(.systemGray6)
                 .ignoresSafeArea()
@@ -33,14 +37,40 @@ struct HabitDetailsView: View {
                     Spacer()
                 }
                 habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays, habitIndex: habitIndex)
-                    //.padding()
+                //.padding()
                     .background()
-                   
+                
                     .cornerRadius(20)
+                Spacer()
+                Button(action: {
+                    deleteHabit(habit: habit)
+                }, label: {
+                    Label("Delete", systemImage: "trash")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.red)
+                        .foregroundColor(.white)
+                        .bold()
+                        .cornerRadius(20)
+                })
             }
             .padding()
         }
+
         .navigationTitle(habit.name)
+        .toolbar{
+            NavigationLink(destination: NewHabitView(habitsVM: habitsVM, habit: habit)){
+                Text("Edit")
+            }
+        }
+    }
+    func editHabit(){
+        
+    }
+    
+    func deleteHabit(habit: Habit){
+        modelContext.delete(habit)
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
