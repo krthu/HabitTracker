@@ -82,7 +82,7 @@ struct HabitRow: View {
                         Text(habit.name)
                             .font(.headline)
                             .bold()
-                        Text("Reminder")
+                        Text("Reminder: \(habit.reminderDate.formatted(date: .omitted, time: .shortened))")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }

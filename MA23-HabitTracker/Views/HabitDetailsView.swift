@@ -11,7 +11,7 @@ struct HabitDetailsView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var path = [Habit]()
+ //   @State private var path = [Habit]()
     
     var habit: Habit
     var habitIndex: Int
@@ -69,6 +69,7 @@ struct HabitDetailsView: View {
     }
     
     func deleteHabit(habit: Habit){
+        habitsVM.removeNotifikation(habit: habit)
         modelContext.delete(habit)
         presentationMode.wrappedValue.dismiss()
     }

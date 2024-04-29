@@ -13,17 +13,21 @@ class Habit: Identifiable, Hashable{
     var name: String
     var createdAt: Date
     var doneDays: [Date]
+    var reminderSet: Bool
+    var reminderDate: Date
     
     
 //    init(name: String, createdAt: Date){
 //        self.name = name
 //        self.createdAt = createdAt
 //    }
-    init(id: UUID = UUID(), name: String, createdAt: Date, doneDays: [Date] = []) {
+    init(id: UUID = UUID(), name: String, createdAt: Date, doneDays: [Date] = [], reminderSet: Bool = false) {//
         self.id = id
         self.name = name
         self.createdAt = createdAt
         self.doneDays = doneDays
+        self.reminderSet = reminderSet
+        self.reminderDate = Date()
     }
     
     var currentStreak: Int{
