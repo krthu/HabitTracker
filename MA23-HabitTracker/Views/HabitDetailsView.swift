@@ -11,7 +11,7 @@ struct HabitDetailsView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var path = [Habit]()
+ //   @State private var path = [Habit]()
     
     var habit: Habit
     var habitIndex: Int
