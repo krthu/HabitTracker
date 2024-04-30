@@ -13,6 +13,7 @@ struct HabitsListView: View {
     @State var dateSet = Date()
     @State var daysBetween = 7
     @Query var habits: [Habit]
+    var dateManager = DateManager()
     
     var body: some View {
         NavigationStack{
@@ -31,17 +32,17 @@ struct HabitsListView: View {
                     }
                     HStack{
                         Button(action: {
-                            dateSet = habitsVM.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
+                            dateSet = dateManager.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
                         }, label: {
                             Image(systemName: "chevron.left")
                         })
                         .padding()
                        
-                        Text("Week \(habitsVM.getWeekNumber(from: dateSet))")
+                        Text("Week \(dateManager.getWeekNumber(from: dateSet))")
                             .frame(width: 150)
                         
                         Button(action: {
-                            dateSet = habitsVM.getDate(numberOfDaysFrom: daysBetween, from: dateSet)
+                            dateSet = dateManager.getDate(numberOfDaysFrom: daysBetween, from: dateSet)
                         }, label: {
                             Image(systemName: "chevron.right")
                         })
@@ -70,6 +71,7 @@ struct HabitStatsRowView: View {
     var habit: Habit
 
     var date: Date
+    var dateManager = DateManager()
     var body: some View {
         VStack(alignment: .leading){
             
@@ -78,7 +80,7 @@ struct HabitStatsRowView: View {
                 .bold()
             ProgressView(value: habitsVM.getProgress(for: habit, inWeekOf: date))
             
-            weekView(habitsVM: habitsVM, habit: habit, weekDays: habitsVM.getWeekDays(for: date))
+            weekView(habitsVM: habitsVM, habit: habit, weekDays: dateManager.getWeekDays(for: date))
             
         }
     }

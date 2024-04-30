@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6D9D596A2BDD832E00B0892C /* LargeButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D59692BDD832E00B0892C /* LargeButtonLabel.swift */; };
 		6D9D596D2BDE2F5500B0892C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D596C2BDE2F5500B0892C /* NotificationManager.swift */; };
+		6D9D59712BE182F400B0892C /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D59702BE182F400B0892C /* DateManager.swift */; };
 		6DAAB0662BD6419D00495CC6 /* MA23_HabitTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0652BD6419D00495CC6 /* MA23_HabitTrackerApp.swift */; };
 		6DAAB0682BD6419D00495CC6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAAB0672BD6419D00495CC6 /* ContentView.swift */; };
 		6DAAB06A2BD6419E00495CC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DAAB0692BD6419E00495CC6 /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		6D9D59692BDD832E00B0892C /* LargeButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButtonLabel.swift; sourceTree = "<group>"; };
 		6D9D596C2BDE2F5500B0892C /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		6D9D59702BE182F400B0892C /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
 		6DAAB0622BD6419D00495CC6 /* MA23-HabitTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MA23-HabitTracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DAAB0652BD6419D00495CC6 /* MA23_HabitTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MA23_HabitTrackerApp.swift; sourceTree = "<group>"; };
 		6DAAB0672BD6419D00495CC6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				6D9D596C2BDE2F5500B0892C /* NotificationManager.swift */,
+				6D9D59702BE182F400B0892C /* DateManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 				6DAAB0912BD6480100495CC6 /* Habit.swift in Sources */,
 				6DAAB0932BD659CE00495CC6 /* TodayListView.swift in Sources */,
 				6DAAB09B2BD8DA8400495CC6 /* HabitDetailsView.swift in Sources */,
+				6D9D59712BE182F400B0892C /* DateManager.swift in Sources */,
 				6DAAB0682BD6419D00495CC6 /* ContentView.swift in Sources */,
 				6DAAB0662BD6419D00495CC6 /* MA23_HabitTrackerApp.swift in Sources */,
 				6D9D596A2BDD832E00B0892C /* LargeButtonLabel.swift in Sources */,
