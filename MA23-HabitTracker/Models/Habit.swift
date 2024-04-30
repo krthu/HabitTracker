@@ -30,6 +30,7 @@ class Habit: Identifiable, Hashable{
         self.reminderDate = Date()
     }
     
+    //
     var currentStreak: Int{
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())

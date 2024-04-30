@@ -53,18 +53,18 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Här kan du lägga till logik för att bestämma om notifikationen ska visas eller inte
+
         
-        let identifier = notification.request.identifier
-        print("Will present!!!!!!")
-        // Exempel: Kontrollera något villkor innan du visar notifikationen
-        if identifier == "specifikIdentifier" {
-            // Om villkoret är uppfyllt, visa notifikationen
-            completionHandler([.banner, .sound]) // Ändra detta baserat på dina behov
-        } else {
-            // Om villkoret inte är uppfyllt, visa inte notifikationen
-            completionHandler([])
-        }
+//        let identifier = notification.request.identifier
+//        print("Will present!!!!!!")
+//
+//        if identifier == "specifikIdentifier" {
+//
+        completionHandler([.banner, .sound])
+//        } else {
+
+        completionHandler([])
+        //}
     }
     
     

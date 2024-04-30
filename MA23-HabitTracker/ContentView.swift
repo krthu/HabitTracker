@@ -20,12 +20,6 @@ struct ContentView: View {
                             "\(getSymbol(for:Date())).square")
                             //"list.bullet")
                 }
-//            NewHabitView(habitsVM: habitsVM)
-//                .tabItem {
-//                    Label("Add Habit", systemImage:
-//                            "plus.circle")
-//                            //"list.bullet")
-//                }
             
             HabitsListView(habitsVM: habitsVM)
                 .tabItem{
@@ -35,11 +29,18 @@ struct ContentView: View {
         .onAppear{
 //            do {
 //                try modelContext.delete(model: Habit.self)
-//            //    try modelContext.delete(model: City.self)
+
 //            } catch {
 //                print("Failed to clear all Country and City data.")
 //            }
+       //     addMockData()
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+    
+            habitsVM.today = Date()
+            print("Changed Date")
+        }
+    
         
     }
     func getSymbol(for date: Date) -> String{
@@ -48,6 +49,51 @@ struct ContentView: View {
             return String(day)
         }
         return "0"
+    }
+    
+    func addMockData(){
+        var data: [Habit] = []
+        
+        data.append(Habit(name: "Löp 5km", createdAt: getDate(year: 2024, month: 2, day: 2), doneDays: [getDate(year: 2024, month: 4, day: 21), getDate(year: 2024, month: 4, day: 22), getDate(year: 2024, month: 4, day: 23), getDate(year: 2024, month: 4, day: 24)]))
+
+        data.append(Habit(name: "Gå 10 000 steg", createdAt: getDate(year: 2024, month: 2, day: 5), doneDays: [
+            getDate(year: 2024, month: 4, day: 21),
+            getDate(year: 2024, month: 4, day: 24),
+            getDate(year: 2024, month: 4, day: 26),
+            getDate(year: 2024, month: 4, day: 27)
+        ]))
+
+        data.append(Habit(name: "Drick 2 liter vatten", createdAt: getDate(year: 2024, month: 2, day: 10), doneDays: [
+            getDate(year: 2024, month: 4, day: 25),
+            getDate(year: 2024, month: 4, day: 26),
+            getDate(year: 2024, month: 4, day: 27),
+            getDate(year: 2024, month: 4, day: 28)
+        ]))
+
+        data.append(Habit(name: "Läs 30 minuter", createdAt: getDate(year: 2024, month: 2, day: 15), doneDays: [
+            getDate(year: 2024, month: 4, day: 22),
+            getDate(year: 2024, month: 4, day: 23),
+            getDate(year: 2024, month: 4, day: 24),
+            getDate(year: 2024, month: 4, day: 27)
+        ]))
+
+        
+        
+        
+        for habit in data {
+            modelContext.insert(habit)
+        }
+    }
+    func getDate(year: Int, month: Int, day: Int ) -> Date{
+        let calendar = Calendar.current
+ 
+        
+        if let date = calendar.date(from: DateComponents(year: year, month: month, day: day)){
+            print(date)
+            return date
+          
+        }
+        return Date()
     }
 }
 
@@ -72,6 +118,16 @@ startPoint: .topLeading,
 endPoint: .bottomTrailing
 )
 }
+
+
+
+
+
+
+
+
+
+
 
 #Preview {
     ContentView()

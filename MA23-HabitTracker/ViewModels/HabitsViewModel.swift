@@ -11,34 +11,24 @@ class HabitsViewModel: ObservableObject{
     // -> Handled by swift Data
     @Published var habits: [Habit] = []
     var notifikationsManager = NotificationManager()
-//    @Published var isPermissionGranted: Bool = false
+    @Published var today = Date()
+
     
     init() {
-//        notifikationsManager.requestAuthorization { isAllowed in
-//            self.isPermissionGranted = isAllowed
-//        }
-    }
 
-//    func getDate(year: Int, month: Int, day: Int) -> Date?{
-//        let calendar = Calendar.current
-//        let datecomponent = DateComponents(year: year, month: month, day: day)
-//        return calendar.date(from: datecomponent)
-//        
-//    }
+    }
     
     func toggleReminder(habit: Habit) {
-//        if isPermissionGranted {
-//            habit.reminderSet.toggle()
-//        } else {
+
         notifikationsManager.requestAuthorization{ didAllow in
             DispatchQueue.main.async {
                 if didAllow{
-//                    self.isPermissionGranted = true
+
                     habit.reminderSet = true
                     habit.reminderDate = Date()
                     self.setNotifikation(habit: habit)
                 } else {
-//                    self.isPermissionGranted = false
+
                     habit.reminderSet = false
 
                     self.notifikationsManager.removeNotifikation(with: habit.id.uuidString)
@@ -46,14 +36,6 @@ class HabitsViewModel: ObservableObject{
             }
             
         }
-   //     }
-//        notifikationsManager.requestAuthorization{ didAllow in
-//            if didAllow {
-//                self.isPermissionGranted = true
-//            } else {
-//                self.isPermissionGranted = false
-//            }
-//        }
     }
     
     func setNotifikation(habit: Habit){

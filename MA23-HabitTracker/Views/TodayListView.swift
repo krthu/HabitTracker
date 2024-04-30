@@ -16,6 +16,7 @@ struct TodayListView: View {
     @Query var habits: [Habit]
     @State private var path = [Habit]()
     
+    
     var body: some View {
         NavigationStack(path: $path){
             ZStack{
@@ -24,9 +25,9 @@ struct TodayListView: View {
                 List{
                     
                     ForEach(Array(habits.enumerated()), id: \.element) { index, habit in
-                        HabitRow(habitsVM: habitsVM, habit: habit, habitIndex: index)
+                        HabitRow(habitsVM: habitsVM, habit: habit)
                         .onTapGesture {
-                            habitsVM.toggleHabitDone(habit: habit, on: Date())
+                            habitsVM.toggleHabitDone(habit: habit, on: habitsVM.today)
                         }
                     }
                     .listRowSeparator(.hidden)
@@ -43,14 +44,10 @@ struct TodayListView: View {
                        // showAddHabitSheet = true
                     }
                 }
-//                .sheet(isPresented: $showAddHabitSheet, content: {
-//                   // AddHabitSheet(habitVM: habitsVM, showHabbitSheet: $showAddHabitSheet)
-//                    
-//                  //  NewHabitView(habitsVM: habitsVM)
-//                })
                 Spacer()
             }
         }
+       
     }
     func addHabit(){
         let newHabit = Habit(name: "", createdAt: Date())
@@ -62,18 +59,19 @@ struct TodayListView: View {
 
 struct HabitRow: View {
     @ObservedObject var habitsVM: HabitsViewModel
-    var habit: Habit
-    var habitIndex: Int
+    @Bindable var habit: Habit
+//    var today: Date
+
     var body: some View {
 
         VStack(alignment: .trailing) {
             HStack {
 
-                Image(systemName: habitsVM.isHabitDone(habit: habit, on: Date()) ? "checkmark.circle.fill": "circle")
+                Image(systemName: habitsVM.isHabitDone(habit: habit, on: habitsVM.today) ? "checkmark.circle.fill": "circle")
                     .foregroundColor(.blue)
                     .font(.largeTitle)
                     .padding()
-                   // .foregroundStyle(.linearGradient(colors: [.blue, .purple], startPoint: .top, endPoint: .bottom))
+
                    // .foregroundStyle(LinearGradient.bluePurpleGradient)
 //                    .foregroundStyle(LinearGradient.blueLightBlueGradient)
               
@@ -82,9 +80,12 @@ struct HabitRow: View {
                         Text(habit.name)
                             .font(.headline)
                             .bold()
-                        Text("Reminder: \(habit.reminderDate.formatted(date: .omitted, time: .shortened))")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                        if habit.reminderSet{
+                            Text("Reminder: \(habit.reminderDate.formatted(date: .omitted, time: .shortened))")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+
                     }
                     Spacer()
                     ZStack{
@@ -122,35 +123,6 @@ struct HabitRow: View {
         }
     }
 }
-
-// -----------------Remove if not in use----------
-//struct AddHabitSheet: View {
-//    
-//    @ObservedObject var habitVM: HabitsViewModel
-//    @State var name = ""
-//    @Binding var showHabbitSheet: Bool
-//    
-//    var body: some View {
-//        VStack{
-//            Text("New Habit")
-//                .font(.title)
-//                .bold()
-//                .padding()
-//            Form{
-//                Section("Habit"){
-//                    TextField("Habit", text: $name)
-//                }
-//                
-//            }
-//            Button("Save"){
-//                if !name.isEmpty{
-//                    habitVM.addHabit(withName: name)
-//                }
-//                showHabbitSheet = false
-//            }
-//        }
-//    }
-//}
     
     #Preview {
         TodayListView(habitsVM: HabitsViewModel())

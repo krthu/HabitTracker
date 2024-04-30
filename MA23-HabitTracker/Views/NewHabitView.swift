@@ -10,7 +10,7 @@ import SwiftUI
 struct NewHabitView: View {
     
     @ObservedObject var habitsVM: HabitsViewModel
-//    @State var name: String = ""
+
     @State private var selectedTime = Date()
     @State var isReminderOn: Bool = false
     @Bindable var habit: Habit
@@ -90,8 +90,6 @@ struct ReminderCard: View {
                         print(newValue.timeIntervalSince1970)
                         habitsVM.setNotifikation(habit: habit)
                     }
-         
-            //    .foregroundColor(isReminderOn ? .primary : .secondary)
             }
         }
         .padding()

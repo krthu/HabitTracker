@@ -11,11 +11,10 @@ struct HabitDetailsView: View {
     @ObservedObject var habitsVM: HabitsViewModel
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
- //   @State private var path = [Habit]()
     
-    var habit: Habit
+    @Bindable var habit: Habit
     var habitIndex: Int
-  //  @State var date = Date()
+
     @State var date: Date = {
         let calendar = Calendar.current
         let currentDate = Date()
@@ -123,10 +122,13 @@ struct CalendarBodyView: View{
         }
         
     }
+    
+    // VM Or dateManager
+    
     private var firstWeekdayIndex: Int {
         guard let firstDay = days.first else { return 0 }
         let weekday = Calendar.current.component(.weekday, from: firstDay)
-        return (weekday + 5) % 7 // Justera indexet för att börja på måndag
+        return (weekday + 5) % 7 // Adjusting Index to start on Monday
     }
 }
 
