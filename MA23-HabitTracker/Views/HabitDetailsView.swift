@@ -100,6 +100,7 @@ struct CalendarBodyView: View{
     @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
     var days: [Date]
+    var dateManager = DateManager()
 
   
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
@@ -112,7 +113,7 @@ struct CalendarBodyView: View{
             Text("Fr")
             Text("Sa")
             Text("Su")
-            ForEach(0..<firstWeekdayIndex, id: \.self) { _ in
+            ForEach(0..<dateManager.getFirstWeekdayIndex(from: days), id: \.self) { _ in
                 Spacer()
             }
             ForEach(days, id: \.self) { day in
@@ -125,11 +126,11 @@ struct CalendarBodyView: View{
     
     // VM Or dateManager
     
-    private var firstWeekdayIndex: Int {
-        guard let firstDay = days.first else { return 0 }
-        let weekday = Calendar.current.component(.weekday, from: firstDay)
-        return (weekday + 5) % 7 // Adjusting Index to start on Monday
-    }
+//    private var firstWeekdayIndex: Int {
+//        guard let firstDay = days.first else { return 0 }
+//        let weekday = Calendar.current.component(.weekday, from: firstDay)
+//        return (weekday + 5) % 7 // Adjusting Index to start on Monday
+//    }
 }
 
 

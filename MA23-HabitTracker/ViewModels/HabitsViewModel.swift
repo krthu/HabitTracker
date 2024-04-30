@@ -131,9 +131,9 @@ class HabitsViewModel: ObservableObject{
     }
     
     // ViewModel if needed
-    func getIndex(of habit: Habit) -> Int {
-        return habits.firstIndex(where: {$0.id == habit.id}) ?? 0
-    }
+//    func getIndex(of habit: Habit) -> Int {
+//        return habits.firstIndex(where: {$0.id == habit.id}) ?? 0
+//    }
     
     // -> ViewModel / Model
     func getProgress(for habit: Habit, inWeekOf date: Date) -> Double {

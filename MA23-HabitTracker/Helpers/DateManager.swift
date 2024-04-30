@@ -61,6 +61,12 @@ class DateManager{
         return startDate // Kanske borde vara nil
     }
     
+    func getFirstWeekdayIndex(from days: [Date]) -> Int{
+        guard let firstDay = days.first else {return 0}
+        let weekday = Calendar.current.component(.weekday, from: firstDay)
+        return (weekday + 5) % 7
+    }
+    
     
     
 }
