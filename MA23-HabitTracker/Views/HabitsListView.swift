@@ -53,7 +53,7 @@ struct HabitsListView: View {
             List{
                 ForEach(habits){ habit in
                     Section{
-                        NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit, habitIndex: habitsVM.getIndex(of: habit) )){
+                        NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit)){
                             HabitStatsRowView(habitsVM: habitsVM, habit: habit, date: dateSet)
                                 .padding(.vertical, 10)
                             

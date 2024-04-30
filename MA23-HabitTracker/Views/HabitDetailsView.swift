@@ -13,7 +13,7 @@ struct HabitDetailsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @Bindable var habit: Habit
-    var habitIndex: Int
+//    var habitIndex: Int
 
     @State var date: Date = {
         let calendar = Calendar.current
@@ -35,7 +35,7 @@ struct HabitDetailsView: View {
                         .bold()
                     Spacer()
                 }
-                habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays, habitIndex: habitIndex)
+                habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
                 //.padding()
                     .background()
                 
@@ -82,14 +82,14 @@ struct habitCalendarView: View{
     var habit: Habit
     @Binding var date: Date
     var doneDays: [Date]
-    var habitIndex: Int
+
     var body: some View{
         VStack{
             CalendarHeader(date: $date)
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.white)
                 .background(LinearGradient.bluePurpleGradient)
-            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth, habitIndex: habitIndex)
+            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth)
                 .padding(10)
         }
     }
@@ -100,7 +100,7 @@ struct CalendarBodyView: View{
     @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
     var days: [Date]
-    var habitIndex: Int
+
   
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     var body: some View{
@@ -182,6 +182,6 @@ struct CalendarDayView: View {
 }
 
 #Preview {
-    HabitDetailsView(habitsVM: HabitsViewModel(), habit:  Habit(name: "Dricka vatten", createdAt: Date()), habitIndex: 0)
+    HabitDetailsView(habitsVM: HabitsViewModel(), habit:  Habit(name: "Dricka vatten", createdAt: Date()))
 }
 
