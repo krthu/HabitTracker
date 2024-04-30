@@ -21,6 +21,7 @@ class Habit: Identifiable, Hashable{
 //        self.name = name
 //        self.createdAt = createdAt
 //    }
+    
     init(id: UUID = UUID(), name: String, createdAt: Date, doneDays: [Date] = [], reminderSet: Bool = false) {//
         self.id = id
         self.name = name
@@ -30,6 +31,7 @@ class Habit: Identifiable, Hashable{
         self.reminderDate = Date()
     }
     
+    // Move to vm perhaps
     var currentStreak: Int{
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
