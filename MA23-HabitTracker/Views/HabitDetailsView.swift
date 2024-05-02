@@ -16,7 +16,6 @@ struct HabitDetailsView: View {
 
     @ObservedObject var viewModel = ViewModel()
 
-    
     var body: some View {
 
         ZStack{
@@ -59,9 +58,6 @@ struct HabitDetailsView: View {
             }
         }
     }
-    func editHabit(){
-        
-    }
     
     func deleteHabit(habit: Habit){
         viewModel.removeNotifikation(habit: habit)
@@ -79,10 +75,7 @@ extension HabitDetailsView {
         
         init(date: Date = Date()) {
             self.date = date.startDateOfMonth
-            
             self.daysInMonth = dateManager.getDaysOfMonth(from: date)
-               
-            
         }
         
         func previousMonth(){
@@ -90,9 +83,7 @@ extension HabitDetailsView {
             if let newDate = date.previousMonth(){
                 date = newDate
                 daysInMonth = dateManager.getDaysOfMonth(from: date)
-                
             }
-
         }
         
         func nextMonth(){
@@ -105,17 +96,8 @@ extension HabitDetailsView {
         func removeNotifikation(habit: Habit){
             notifikationManager.removeNotifikation(with: habit.id.uuidString)
         }
-        
-        func isHabitDone(habit: Habit, on date: Date) -> Bool{
-            return habit.doneDays.contains{ doneDate in
-                Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
-            }
-        }
     }
 }
-
-
-
 
 struct habitCalendarView: View{
 
@@ -136,14 +118,12 @@ struct habitCalendarView: View{
 }
 
 struct CalendarBodyView: View{
- 
 
     var habit: Habit
     @Binding var days: [Date]
     var dateManager = DateManager()
     var viewModel: HabitDetailsView.ViewModel
 
-  
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     var body: some View{
         LazyVGrid(columns: columns, spacing: 0) {
@@ -159,7 +139,7 @@ struct CalendarBodyView: View{
             }
             ForEach(days, id: \.self) { day in
                 let dayNumber = Calendar.current.component(.day, from: day)
-                CalendarDayView(dayNumber: dayNumber, isDone: viewModel.isHabitDone(habit: habit, on: day))
+                CalendarDayView(dayNumber: dayNumber, isDone: habit.isHabitDone( on: day))
             }
         }
 

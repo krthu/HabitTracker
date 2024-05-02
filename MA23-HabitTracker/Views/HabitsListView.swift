@@ -10,10 +10,8 @@ import SwiftUI
 struct HabitsListView: View {
     
     @StateObject var viewModel = ViewModel()
-    
     @Query var habits: [Habit]
-    
-    
+
     var body: some View {
         NavigationStack{
             VStack{
@@ -63,14 +61,11 @@ extension HabitsListView{
         @Published var weekDays: [Date]
         @Published var weekNR: Int
         
-        
-        
         init(dateSet: Date = Date(), daysBetween: Int = 7) {
             self.dateSet = dateSet
             self.daysBetween = daysBetween
             self.weekDays = dateManager.getWeekDays(for: dateSet)
             self.weekNR = dateManager.getWeekNumber(from: dateSet)
-            
         }
         
         func previousWeek(){
@@ -85,23 +80,7 @@ extension HabitsListView{
         }
         
         func getProgress(for habit: Habit) -> Double {
-            
-            
-            let totalDays = weekDays.count
-            var daysDone = 0.0
-            
-            for day in weekDays{
-                if isHabitDone(habit: habit, on: day){
-                    daysDone += 1
-                }
-            }
-            return daysDone/Double(totalDays)
-        }
-        
-        func isHabitDone(habit: Habit, on date: Date) -> Bool{
-            return habit.doneDays.contains{ doneDate in
-                Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
-            }
+             habit.getProgress(days: weekDays)
         }
     }
 }
@@ -122,9 +101,7 @@ struct HabitStatsRowView: View {
             
             ProgressView(value: viewModel.getProgress(for: habit))
             
-            
             weekView(viewModel: viewModel, habit: habit, weekDays: viewModel.weekDays)
-            
         }
     }
 }
@@ -147,9 +124,8 @@ struct weekView: View {
                 let dayName = dateFormatter.shortWeekdaySymbols[weekday - 1]
                 let components = calendar.dateComponents([.day], from: date)
                 
-                
                 if let dayNumber = components.day{
-                    DayView(dayNumber: dayNumber, weekdayName: dayName, isDone: viewModel.isHabitDone(habit: habit, on: date))
+                    DayView(dayNumber: dayNumber, weekdayName: dayName, isDone: habit.isHabitDone(on: date))
                 }
             }
         }

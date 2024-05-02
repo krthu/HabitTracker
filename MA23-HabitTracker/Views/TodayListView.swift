@@ -25,8 +25,7 @@ struct TodayListView: View {
                     ForEach(Array(habits.enumerated()), id: \.element) { index, habit in
                         HabitRow(habit: habit, viewModel: viewModel)
                         .onTapGesture {
-
-                            viewModel.toggleHabitDone(habit: habit, on: Date())
+                            habit.toggleDone(on: Date())
                         }
                     }
                     .listRowSeparator(.hidden)
@@ -46,6 +45,10 @@ struct TodayListView: View {
                 Spacer()
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            viewModel.today = Date()
+            print("Changed Date")
+        }
     }
     func addHabit(){
         let newHabit = Habit(name: "", createdAt: Date())
@@ -57,24 +60,6 @@ struct TodayListView: View {
 extension TodayListView{
     class ViewModel: ObservableObject{
         @Published var today: Date = Date()
-        
-        func toggleHabitDone(habit: Habit, on date: Date){
-            if !isHabitDone(habit: habit, on: date){
-                habit.doneDays.append(date)
-            } else {
-                habit.doneDays.removeAll { habitDate in
-                    Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
-                }
-            }
-        }
-        
-
-        func isHabitDone(habit: Habit, on date: Date) -> Bool{
-            return habit.doneDays.contains{ doneDate in
-                Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
-            }
-        }
-        
     }
 }
 
@@ -82,14 +67,15 @@ extension TodayListView{
 struct HabitRow: View {
 
     @Bindable var habit: Habit
-    var viewModel: TodayListView.ViewModel
+    @ObservedObject var viewModel: TodayListView.ViewModel
     
     var body: some View {
 
         VStack(alignment: .trailing) {
             HStack {
 
-                Image(systemName: viewModel.isHabitDone(habit: habit, on: viewModel.today) ? "checkmark.circle.fill": "circle")
+               // Image(systemName: viewModel.isHabitDone(habit: habit, on: viewModel.today) ? "checkmark.circle.fill": "circle")
+                Image(systemName: habit.isHabitDone(on: viewModel.today) ? "checkmark.circle.fill": "circle")
                     .foregroundColor(.blue)
                     .font(.largeTitle)
                     .padding()
@@ -107,7 +93,6 @@ struct HabitRow: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
-
                     }
                     Spacer()
                     ZStack{
