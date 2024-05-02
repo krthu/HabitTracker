@@ -9,8 +9,6 @@ import SwiftUI
 
 struct NewHabitView: View {
     
-//    @State private var selectedTime = Date()
-//    @State var isReminderOn: Bool = false
     @Bindable var habit: Habit
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode
@@ -32,9 +30,9 @@ struct NewHabitView: View {
             },
             label: {
                 Text("Cancel")
-            }))
+            })
+        )
     }
-
 }
 
 extension NewHabitView{
@@ -73,7 +71,6 @@ extension NewHabitView{
             
             let dateComponents = dateManager.getHourMinuteDateComponents(from: habit.reminderDate)
             notifikationManager.addNotifikation(title: title, subTitle: subtitle, dateComponents: dateComponents, identifier: habit.id.uuidString)
-
         }
         
         func removeNotifikation(habit: Habit){
@@ -119,7 +116,6 @@ struct MainView: View{
             })
         }
         .padding()
-        
         .onDisappear{
             deleteEmptyHabit()
         }
@@ -161,7 +157,6 @@ struct ReminderCard: View {
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(10)
-        
     }
 }
 

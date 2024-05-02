@@ -16,8 +16,7 @@ struct ContentView: View {
    
             TodayListView()
                 .tabItem {
-                    Label("Today", systemImage:
-                            "\(getSymbol(for:Date())).square")
+                    Label("Today", systemImage: "\(getSymbol(for:Date())).square")
                         
                 }
             
@@ -35,11 +34,11 @@ struct ContentView: View {
 //            }
         //    addMockData()
         }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-        // Need to fix this In today list
-//habitsVM.today = Date()
-            print("Changed Date")
-        }
+//        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+//        // Need to fix this In today list
+////habitsVM.today = Date()
+//            print("Changed Date")
+//        }
     
         
     }

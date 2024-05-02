@@ -55,6 +55,37 @@ class Habit: Identifiable, Hashable{
         return streak
     }
     
+    func isHabitDone(on date: Date) -> Bool{
+        return doneDays.contains{ doneDate in
+            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+        }
+    }
+    
+    func toggleDone(on date: Date){
+        if !isHabitDone( on: date){
+            doneDays.append(date)
+        } else {
+            doneDays.removeAll { habitDate in
+                Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
+            }
+        }
+    }
+    
+    func getProgress(days: [Date]) -> Double {
+        
+        let totalDays = days.count
+        var daysDone = 0.0
+        
+        for day in days{
+            if isHabitDone(on: day){
+                daysDone += 1
+            }
+        }
+        return daysDone/Double(totalDays)
+    }
+    
+    
+    
     
     
 //    func done(onDate date: Date){
