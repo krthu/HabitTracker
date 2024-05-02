@@ -8,7 +8,7 @@
 import Foundation
 
 class DateManager{
-    // -> DateManager
+  
     func getWeekDays(for date: Date) -> [Date] {
         let calendar = Calendar.current
         let interval = calendar.dateInterval(of: .weekOfYear, for: date)
@@ -22,7 +22,7 @@ class DateManager{
         }
         return weekDays
     }
-    // -> DateManager
+
     func getWeekNumber(from date: Date) -> Int{
         let calender = Calendar.current
         let weekNumber = calender.component(.weekOfYear, from: date)
@@ -33,39 +33,13 @@ class DateManager{
         return date.getDaysInMonth
     }
     
-    // -> DateManager
-//    func getDaysOfMonth(from date: Date) -> [Date]{
-//        let startDate = date.startDateOfMonth
-//        let endDate = date.endDateOfMonth
-//        var currentDate = startDate
-//        
-//        let calendar = Calendar.current
-//        var daysInMonth: [Date] = []
-//        if let monthInterval = calendar.range(of: .day, in: .month, for: startDate){
-//            for day in monthInterval{
-//                var dateComponents = DateComponents()
-//                dateComponents.day = day
-//                if let date = calendar.date(byAdding: dateComponents, to: startDate){
-//                    daysInMonth.append(date)
-//                }
-//            }
-//        }
-//        return daysInMonth
-//    }
-    
-//    @State var date: Date = {
-//        let calendar = Calendar.current
-//        let currentDate = Date()
-//        let components = calendar.dateComponents([.year, .month], from: currentDate)
-//        return calendar.date(from: components)!
-    
     
     func getHourMinuteDateComponents(from date: Date) -> DateComponents{
         let calendar = Calendar.current
         return calendar.dateComponents([.hour, .minute], from: date)
     }
     
-    // -> DateManager
+
     func getDate(numberOfDaysFrom: Int, from startDate: Date) -> Date {
         let calendar = Calendar.current
         var dateComponents = DateComponents()
@@ -73,7 +47,7 @@ class DateManager{
         if let newDate = calendar.date(byAdding: dateComponents, to: startDate){
             return newDate
         }
-        return startDate // Kanske borde vara nil
+        return startDate 
     }
     
     func getFirstWeekdayIndex(from days: [Date]) -> Int{

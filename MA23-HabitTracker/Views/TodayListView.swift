@@ -11,8 +11,6 @@ struct TodayListView: View {
     @Environment(\.modelContext) var modelContext
     
     @StateObject var viewModel = ViewModel()
- //   @ObservedObject var habitsVM: HabitsViewModel
-//    @State var showAddHabitSheet = false
     @Query var habits: [Habit]
     @State private var path = [Habit]()
     
@@ -27,7 +25,7 @@ struct TodayListView: View {
                     ForEach(Array(habits.enumerated()), id: \.element) { index, habit in
                         HabitRow(habit: habit, viewModel: viewModel)
                         .onTapGesture {
-                       //     habitsVM.toggleHabitDone(habit: habit, on: habitsVM.today)
+
                             viewModel.toggleHabitDone(habit: habit, on: Date())
                         }
                     }
@@ -42,7 +40,7 @@ struct TodayListView: View {
                 .toolbar{
                     Button("Hello", systemImage: "plus"){
                         addHabit()
-                       // showAddHabitSheet = true
+
                     }
                 }
                 Spacer()
@@ -70,7 +68,7 @@ extension TodayListView{
             }
         }
         
-        // -> ViewModel / Model
+
         func isHabitDone(habit: Habit, on date: Date) -> Bool{
             return habit.doneDays.contains{ doneDate in
                 Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
@@ -82,11 +80,11 @@ extension TodayListView{
 
 
 struct HabitRow: View {
- //   @ObservedObject var habitsVM: HabitsViewModel
+
     @Bindable var habit: Habit
     var viewModel: TodayListView.ViewModel
     
-//    var today: Date
+
 
     var body: some View {
 
@@ -116,7 +114,7 @@ struct HabitRow: View {
                     Spacer()
                     ZStack{
                         Circle()
-                           // .foregroundColor(.blue)
+ 
                             .foregroundColor(Color(circleColor(for: habit.currentStreak)))
                             .foregroundStyle(LinearGradient.blueLightBlueGradient)
                             .frame(width: 30, height: 30)

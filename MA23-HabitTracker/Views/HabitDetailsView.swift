@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct HabitDetailsView: View {
-//    @ObservedObject var habitsVM: HabitsViewModel = HabitsViewModel()
+
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @Bindable var habit: Habit
-//    var habitIndex: Int
+
     @ObservedObject var viewModel = ViewModel()
-//    @State var date = Date()
+
     
     var body: some View {
 
@@ -30,9 +30,9 @@ struct HabitDetailsView: View {
                         .bold()
                     Spacer()
                 }
-               // habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
+    
                 habitCalendarView(habit: habit, viewModel: viewModel)
-                //.padding()
+             
                     .background()
                 
                     .cornerRadius(20)
@@ -51,10 +51,6 @@ struct HabitDetailsView: View {
             }
             .padding()
         }
-        //   .onAppear(){
-//          //  print(viewModel.date)
-//          //  print("This is from top view \(viewModel.daysInMonth)")
-//        }
 
         .navigationTitle(habit.name)
         .toolbar{
@@ -115,8 +111,6 @@ extension HabitDetailsView {
                 Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
             }
         }
-        
-        
     }
 }
 
@@ -124,10 +118,9 @@ extension HabitDetailsView {
 
 
 struct habitCalendarView: View{
-//    @ObservedObject var habitsVM: HabitsViewModel
+
     var habit: Habit
- //   @Binding var date: Date
-//    var doneDays: [Date]
+
     @ObservedObject var viewModel: HabitDetailsView.ViewModel
 
     var body: some View{
@@ -144,7 +137,7 @@ struct habitCalendarView: View{
 
 struct CalendarBodyView: View{
  
- //   @ObservedObject var habitsVM: HabitsViewModel
+
     var habit: Habit
     @Binding var days: [Date]
     var dateManager = DateManager()
@@ -183,10 +176,6 @@ struct CalendarHeader: View {
         HStack{
             Button(action: {
                 viewModel.previousMonth()
-//                if let newDate = date.previousMonth(){
-//                    date = newDate
-                
-//                }
                 
             }, label: {
                 Image(systemName: "chevron.left")
@@ -198,9 +187,7 @@ struct CalendarHeader: View {
 
             Button(action: {
                 viewModel.nextMonth()
-//                if let newDate = date.nextMonth(){
-//                    date = newDate
-//                }
+
             }, label: {
                 Image(systemName: "chevron.right")
             })

@@ -8,29 +8,16 @@ import SwiftData
 import SwiftUI
 
 struct HabitsListView: View {
-//    @ObservedObject var habitsVM: HabitsViewModel
+
     @StateObject var viewModel = ViewModel()
-    // Move to VM to get it to carry over to calendar?
-//    @State var dateSet = Date()
-//    @State var daysBetween = 7
+
     @Query var habits: [Habit]
-//    var dateManager = DateManager()
+
     
     var body: some View {
         NavigationStack{
             VStack{
                 
-//                ZStack{ // remove if not used
-//                    HStack{
-//                        Image(systemName: "calendar")
-//                            .font(.title)
-//                            .padding()
-//                            .onTapGesture {
-//                                print("show Month")
-//                                
-//                            }
-//                        Spacer()
-//                    }
                     HStack{
                         Button(action: {
                        //     dateSet = dateManager.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
@@ -51,14 +38,14 @@ struct HabitsListView: View {
                         })
                         .padding()
                     }
-//                }
+
             }
             
             List{
                 ForEach(habits){ habit in
                     Section{
                         NavigationLink(destination: HabitDetailsView(habit: habit)){
-                    //        HabitStatsRowView(habitsVM: habitsVM, habit: habit, date: dateSet)
+
                             HabitStatsRowView(habit: habit, viewModel: viewModel)
                                 .padding(.vertical, 10)
                             
@@ -99,7 +86,7 @@ extension HabitsListView{
         }
         
         func getProgress(for habit: Habit) -> Double {
-           // let days = dateManager.getWeekDays(for: date)
+
             
             let totalDays = weekDays.count
             var daysDone = 0.0
@@ -122,10 +109,10 @@ extension HabitsListView{
 
 
 struct HabitStatsRowView: View {
-//    @ObservedObject var habitsVM: HabitsViewModel
+
     var habit: Habit
     @ObservedObject var viewModel: HabitsListView.ViewModel
-//    var date: Date
+
     var dateManager = DateManager()
     var body: some View {
         VStack(alignment: .leading){
@@ -133,34 +120,19 @@ struct HabitStatsRowView: View {
             Text("\(habit.name)")
                 .font(.headline)
                 .bold()
-//            ProgressView(value: habitsVM.getProgress(for: habit, inWeekOf: date))
+
             ProgressView(value: viewModel.getProgress(for: habit))
             
-//            weekView(viewModel: viewModel,habit: habit, weekDays: dateManager.getWeekDays(for: viewModel.dateSet))
+
             weekView(viewModel: viewModel, habit: habit, weekDays: viewModel.weekDays)
             
         }
     }
 }
 
-//extension HabitStatsRowView{
-//    class ViewModel: ObservableObject{
-//        @Published var progress: Double
-//        
-//        init(progress: Double) {
-//            self.progress = progress
-//        }
-//        func setProgress(habit){
-//            
-//        }
-//        
-//    }
-//}
-
-
 
 struct weekView: View {
- //   @ObservedObject var habitsVM: HabitsViewModel
+
     @ObservedObject var viewModel: HabitsListView.ViewModel
     var habit: Habit
     let calendar = Calendar.current
@@ -170,8 +142,7 @@ struct weekView: View {
     var body: some View {
         HStack {
             ForEach(weekDays, id: \.self) { date in
-                // Break out to DateManager
-                
+
                 let dateFormatter = DateFormatter()
                 let weekday = calendar.component(.weekday, from: date)
                 let dayName = dateFormatter.shortWeekdaySymbols[weekday - 1]

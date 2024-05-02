@@ -19,12 +19,12 @@ struct NewHabitView: View {
 
     
     var body: some View {
-       // NavigationStack{
+
         ZStack{
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()
             VStack(alignment: .leading){
-                //HabitNameCard(name: $name)
+
                 HabitNameCard(name: $habit.name)
                 
                 ReminderCard(selectedTime: $selectedTime, isReminderOn: $isReminderOn, habit: habit, viewModel: viewModel)
@@ -42,8 +42,7 @@ struct NewHabitView: View {
                     Text("Add new Habit")
                         .frame(maxWidth: .infinity)
                         .padding()
-                       // .background(Color.bluePurpleGradient)
-                       // .background(LinearGradient.bluePurpleGradient)
+
                         .background(LinearGradient.blueLightBlueGradient)
                         .foregroundColor(.white)
                         .bold()
@@ -146,11 +145,11 @@ struct ReminderCard: View {
  
     }
     // Move to TimeManager or VM
-    var timeFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter
-    }
+//    var timeFormatter: DateFormatter {
+//        let formatter = DateFormatter()
+//        formatter.timeStyle = .short
+//        return formatter
+//    }
 }
 
 struct HabitNameCard: View {
