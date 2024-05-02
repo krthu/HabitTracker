@@ -14,14 +14,14 @@ struct ContentView: View {
     var body: some View {
         TabView{
    
-            TodayListView(habitsVM: habitsVM)
+            TodayListView()
                 .tabItem {
                     Label("Today", systemImage:
                             "\(getSymbol(for:Date())).square")
                             //"list.bullet")
                 }
             
-            HabitsListView(habitsVM: habitsVM)
+            HabitsListView()
                 .tabItem{
                     Label("Habits", systemImage: "list.bullet.rectangle.portrait")
                 }

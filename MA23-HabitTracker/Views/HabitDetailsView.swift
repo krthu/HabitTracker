@@ -8,19 +8,14 @@
 import SwiftUI
 
 struct HabitDetailsView: View {
-    @ObservedObject var habitsVM: HabitsViewModel
+    @ObservedObject var habitsVM: HabitsViewModel = HabitsViewModel()
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @Bindable var habit: Habit
 //    var habitIndex: Int
-
-    @State var date: Date = {
-        let calendar = Calendar.current
-        let currentDate = Date()
-        let components = calendar.dateComponents([.year, .month], from: currentDate)
-        return calendar.date(from: components)!
-    }()
+    @ObservedObject var viewModel = ViewModel()
+//    @State var date = Date()
     
     var body: some View {
 
@@ -35,7 +30,8 @@ struct HabitDetailsView: View {
                         .bold()
                     Spacer()
                 }
-                habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
+               // habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
+                habitCalendarView(habitsVM: habitsVM, habit: habit, viewModel: viewModel)
                 //.padding()
                     .background()
                 
@@ -55,10 +51,14 @@ struct HabitDetailsView: View {
             }
             .padding()
         }
+        //   .onAppear(){
+//          //  print(viewModel.date)
+//          //  print("This is from top view \(viewModel.daysInMonth)")
+//        }
 
         .navigationTitle(habit.name)
         .toolbar{
-            NavigationLink(destination: NewHabitView(habitsVM: habitsVM, habit: habit)){
+            NavigationLink(destination: NewHabitView(habit: habit)){
                 Text("Edit")
             }
         }
@@ -74,22 +74,57 @@ struct HabitDetailsView: View {
     }
 }
 
+extension HabitDetailsView {
+    class ViewModel :ObservableObject {
+        @Published var date: Date
+        @Published var daysInMonth: [Date]
+        var dateManager = DateManager()
+        
+        init(date: Date = Date()) {
+            self.date = date.startDateOfMonth
+            
+            self.daysInMonth = dateManager.getDaysOfMonth(from: date)
+               
+            
+        }
+        
+        func previousMonth(){
+
+            if let newDate = date.previousMonth(){
+                date = newDate
+                daysInMonth = dateManager.getDaysOfMonth(from: date)
+                
+            }
+
+        }
+        
+        func nextMonth(){
+            if let newDate = date.nextMonth(){
+                date = newDate
+                daysInMonth = dateManager.getDaysOfMonth(from: date)
+            }
+        }
+        
+    }
+}
+
 
 
 
 struct habitCalendarView: View{
     @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
-    @Binding var date: Date
-    var doneDays: [Date]
+ //   @Binding var date: Date
+//    var doneDays: [Date]
+    @ObservedObject var viewModel: HabitDetailsView.ViewModel
 
     var body: some View{
         VStack{
-            CalendarHeader(date: $date)
+            CalendarHeader(date: $viewModel.date, viewModel: viewModel)
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.white)
                 .background(LinearGradient.bluePurpleGradient)
-            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: date.getDaysInMonth)
+            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: $viewModel.daysInMonth)
                 .padding(10)
         }
     }
@@ -99,7 +134,7 @@ struct CalendarBodyView: View{
  
     @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
-    var days: [Date]
+    @Binding var days: [Date]
     var dateManager = DateManager()
 
   
@@ -121,28 +156,25 @@ struct CalendarBodyView: View{
                 CalendarDayView(dayNumber: dayNumber, isDone: habitsVM.isHabitDone(habit: habit, on: day))
             }
         }
+
         
     }
-    
-    // VM Or dateManager
-    
-//    private var firstWeekdayIndex: Int {
-//        guard let firstDay = days.first else { return 0 }
-//        let weekday = Calendar.current.component(.weekday, from: firstDay)
-//        return (weekday + 5) % 7 // Adjusting Index to start on Monday
-//    }
 }
 
 
 struct CalendarHeader: View {
     @Binding var date: Date
+    @ObservedObject var viewModel: HabitDetailsView.ViewModel
     
     var body: some View {
         HStack{
             Button(action: {
-                if let newDate = date.previousMonth(){
-                    date = newDate
-                }
+                viewModel.previousMonth()
+//                if let newDate = date.previousMonth(){
+//                    date = newDate
+                
+//                }
+                
             }, label: {
                 Image(systemName: "chevron.left")
             })
@@ -152,9 +184,10 @@ struct CalendarHeader: View {
                 .frame(width: 150)
 
             Button(action: {
-                if let newDate = date.nextMonth(){
-                    date = newDate
-                }
+                viewModel.nextMonth()
+//                if let newDate = date.nextMonth(){
+//                    date = newDate
+//                }
             }, label: {
                 Image(systemName: "chevron.right")
             })
@@ -165,7 +198,6 @@ struct CalendarHeader: View {
 
 struct CalendarDayView: View {
     var dayNumber: Int
-
     var isDone: Bool
     var body: some View {
         VStack{
@@ -185,4 +217,6 @@ struct CalendarDayView: View {
 #Preview {
     HabitDetailsView(habitsVM: HabitsViewModel(), habit:  Habit(name: "Dricka vatten", createdAt: Date()))
 }
+
+
 

@@ -29,21 +29,36 @@ class DateManager{
         return weekNumber
     }
     
-    // -> DateManager
     func getDaysOfMonth(from date: Date) -> [Date]{
-        let calendar = Calendar.current
-        var daysInMonth: [Date] = []
-        if let monthInterval = calendar.range(of: .day, in: .month, for: date){
-            for day in monthInterval{
-                var dateComponents = DateComponents()
-                dateComponents.day = day
-                if let date = calendar.date(byAdding: dateComponents, to: date){
-                    daysInMonth.append(date)
-                }
-            }
-        }
-        return daysInMonth
+        return date.getDaysInMonth
     }
+    
+    // -> DateManager
+//    func getDaysOfMonth(from date: Date) -> [Date]{
+//        let startDate = date.startDateOfMonth
+//        let endDate = date.endDateOfMonth
+//        var currentDate = startDate
+//        
+//        let calendar = Calendar.current
+//        var daysInMonth: [Date] = []
+//        if let monthInterval = calendar.range(of: .day, in: .month, for: startDate){
+//            for day in monthInterval{
+//                var dateComponents = DateComponents()
+//                dateComponents.day = day
+//                if let date = calendar.date(byAdding: dateComponents, to: startDate){
+//                    daysInMonth.append(date)
+//                }
+//            }
+//        }
+//        return daysInMonth
+//    }
+    
+//    @State var date: Date = {
+//        let calendar = Calendar.current
+//        let currentDate = Date()
+//        let components = calendar.dateComponents([.year, .month], from: currentDate)
+//        return calendar.date(from: components)!
+    
     
     func getHourMinuteDateComponents(from date: Date) -> DateComponents{
         let calendar = Calendar.current

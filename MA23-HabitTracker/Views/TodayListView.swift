@@ -10,8 +10,8 @@ import SwiftUI
 struct TodayListView: View {
     @Environment(\.modelContext) var modelContext
     
-    
-    @ObservedObject var habitsVM: HabitsViewModel
+    @StateObject var viewModel = ViewModel()
+ //   @ObservedObject var habitsVM: HabitsViewModel
 //    @State var showAddHabitSheet = false
     @Query var habits: [Habit]
     @State private var path = [Habit]()
@@ -25,9 +25,10 @@ struct TodayListView: View {
                 List{
                     
                     ForEach(Array(habits.enumerated()), id: \.element) { index, habit in
-                        HabitRow(habitsVM: habitsVM, habit: habit)
+                        HabitRow(habit: habit, viewModel: viewModel)
                         .onTapGesture {
-                            habitsVM.toggleHabitDone(habit: habit, on: habitsVM.today)
+                       //     habitsVM.toggleHabitDone(habit: habit, on: habitsVM.today)
+                            viewModel.toggleHabitDone(habit: habit, on: Date())
                         }
                     }
                     .listRowSeparator(.hidden)
@@ -36,7 +37,7 @@ struct TodayListView: View {
                 .background(Color.clear)
                 .navigationTitle("Today")
                 .navigationDestination(for: Habit.self){
-                    habit in NewHabitView(habitsVM: habitsVM, habit: habit)
+                    habit in NewHabitView(habit: habit)
                 }
                 .toolbar{
                     Button("Hello", systemImage: "plus"){
@@ -47,7 +48,6 @@ struct TodayListView: View {
                 Spacer()
             }
         }
-       
     }
     func addHabit(){
         let newHabit = Habit(name: "", createdAt: Date())
@@ -56,10 +56,36 @@ struct TodayListView: View {
     }
 }
 
+extension TodayListView{
+    class ViewModel: ObservableObject{
+        @Published var today: Date = Date()
+        
+        func toggleHabitDone(habit: Habit, on date: Date){
+            if !isHabitDone(habit: habit, on: date){
+                habit.doneDays.append(date)
+            } else {
+                habit.doneDays.removeAll { habitDate in
+                    Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
+                }
+            }
+        }
+        
+        // -> ViewModel / Model
+        func isHabitDone(habit: Habit, on date: Date) -> Bool{
+            return habit.doneDays.contains{ doneDate in
+                Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+            }
+        }
+        
+    }
+}
+
 
 struct HabitRow: View {
-    @ObservedObject var habitsVM: HabitsViewModel
+ //   @ObservedObject var habitsVM: HabitsViewModel
     @Bindable var habit: Habit
+    var viewModel: TodayListView.ViewModel
+    
 //    var today: Date
 
     var body: some View {
@@ -67,7 +93,7 @@ struct HabitRow: View {
         VStack(alignment: .trailing) {
             HStack {
 
-                Image(systemName: habitsVM.isHabitDone(habit: habit, on: habitsVM.today) ? "checkmark.circle.fill": "circle")
+                Image(systemName: viewModel.isHabitDone(habit: habit, on: viewModel.today) ? "checkmark.circle.fill": "circle")
                     .foregroundColor(.blue)
                     .font(.largeTitle)
                     .padding()
@@ -125,5 +151,5 @@ struct HabitRow: View {
 }
     
     #Preview {
-        TodayListView(habitsVM: HabitsViewModel())
+        TodayListView()
     }

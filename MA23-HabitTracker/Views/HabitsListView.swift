@@ -8,54 +8,58 @@ import SwiftData
 import SwiftUI
 
 struct HabitsListView: View {
-    @ObservedObject var habitsVM: HabitsViewModel
+//    @ObservedObject var habitsVM: HabitsViewModel
+    @StateObject var viewModel = ViewModel()
     // Move to VM to get it to carry over to calendar?
-    @State var dateSet = Date()
-    @State var daysBetween = 7
+//    @State var dateSet = Date()
+//    @State var daysBetween = 7
     @Query var habits: [Habit]
-    var dateManager = DateManager()
+//    var dateManager = DateManager()
     
     var body: some View {
         NavigationStack{
             VStack{
                 
-                ZStack{ // remove if not used
-                    HStack{
-                        Image(systemName: "calendar")
-                            .font(.title)
-                            .padding()
-                            .onTapGesture {
-                                print("show Month")
-                                
-                            }
-                        Spacer()
-                    }
+//                ZStack{ // remove if not used
+//                    HStack{
+//                        Image(systemName: "calendar")
+//                            .font(.title)
+//                            .padding()
+//                            .onTapGesture {
+//                                print("show Month")
+//                                
+//                            }
+//                        Spacer()
+//                    }
                     HStack{
                         Button(action: {
-                            dateSet = dateManager.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
+                       //     dateSet = dateManager.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
+                            viewModel.previousWeek()
                         }, label: {
                             Image(systemName: "chevron.left")
                         })
                         .padding()
                        
-                        Text("Week \(dateManager.getWeekNumber(from: dateSet))")
+                        Text("Week \(viewModel.weekNR)")
                             .frame(width: 150)
                         
                         Button(action: {
-                            dateSet = dateManager.getDate(numberOfDaysFrom: daysBetween, from: dateSet)
+                          //  dateSet = dateManager.getDate(numberOfDaysFrom: daysBetween, from: dateSet)
+                            viewModel.nextWeek()
                         }, label: {
                             Image(systemName: "chevron.right")
                         })
                         .padding()
                     }
-                }
+//                }
             }
             
             List{
                 ForEach(habits){ habit in
                     Section{
-                        NavigationLink(destination: HabitDetailsView(habitsVM: habitsVM, habit: habit)){
-                            HabitStatsRowView(habitsVM: habitsVM, habit: habit, date: dateSet)
+                        NavigationLink(destination: HabitDetailsView(habit: habit)){
+                    //        HabitStatsRowView(habitsVM: habitsVM, habit: habit, date: dateSet)
+                            HabitStatsRowView(habit: habit, viewModel: viewModel)
                                 .padding(.vertical, 10)
                             
                         }
@@ -65,12 +69,63 @@ struct HabitsListView: View {
         }
     }
 }
+extension HabitsListView{
+    class ViewModel: ObservableObject{
+        var dateSet = Date()
+        var daysBetween = 7
+        var dateManager = DateManager()
+        @Published var weekDays: [Date]
+        @Published var weekNR: Int
+
+        
+        
+        init(dateSet: Date = Date(), daysBetween: Int = 7) {
+            self.dateSet = dateSet
+            self.daysBetween = daysBetween
+            self.weekDays = dateManager.getWeekDays(for: dateSet)
+            self.weekNR = dateManager.getWeekNumber(from: dateSet)
+            
+        }
+        
+        func previousWeek(){
+            dateSet = dateManager.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
+            weekDays = dateManager.getWeekDays(for: dateSet)
+            weekNR = dateManager.getWeekNumber(from: dateSet)
+        }
+        func nextWeek(){
+            dateSet = dateManager.getDate(numberOfDaysFrom: daysBetween, from: dateSet)
+            weekDays = dateManager.getWeekDays(for: dateSet)
+            weekNR = dateManager.getWeekNumber(from: dateSet)
+        }
+        
+        func getProgress(for habit: Habit) -> Double {
+           // let days = dateManager.getWeekDays(for: date)
+            
+            let totalDays = weekDays.count
+            var daysDone = 0.0
+            
+            for day in weekDays{
+                if isHabitDone(habit: habit, on: day){
+                    daysDone += 1
+                }
+            }
+            return daysDone/Double(totalDays)
+        }
+        
+        func isHabitDone(habit: Habit, on date: Date) -> Bool{
+            return habit.doneDays.contains{ doneDate in
+                Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+            }
+        }
+    }
+}
+
 
 struct HabitStatsRowView: View {
-    @ObservedObject var habitsVM: HabitsViewModel
+//    @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
-
-    var date: Date
+    @ObservedObject var viewModel: HabitsListView.ViewModel
+//    var date: Date
     var dateManager = DateManager()
     var body: some View {
         VStack(alignment: .leading){
@@ -78,18 +133,35 @@ struct HabitStatsRowView: View {
             Text("\(habit.name)")
                 .font(.headline)
                 .bold()
-            ProgressView(value: habitsVM.getProgress(for: habit, inWeekOf: date))
+//            ProgressView(value: habitsVM.getProgress(for: habit, inWeekOf: date))
+            ProgressView(value: viewModel.getProgress(for: habit))
             
-            weekView(habitsVM: habitsVM, habit: habit, weekDays: dateManager.getWeekDays(for: date))
+//            weekView(viewModel: viewModel,habit: habit, weekDays: dateManager.getWeekDays(for: viewModel.dateSet))
+            weekView(viewModel: viewModel, habit: habit, weekDays: viewModel.weekDays)
             
         }
     }
 }
 
+//extension HabitStatsRowView{
+//    class ViewModel: ObservableObject{
+//        @Published var progress: Double
+//        
+//        init(progress: Double) {
+//            self.progress = progress
+//        }
+//        func setProgress(habit){
+//            
+//        }
+//        
+//    }
+//}
+
 
 
 struct weekView: View {
-    @ObservedObject var habitsVM: HabitsViewModel
+ //   @ObservedObject var habitsVM: HabitsViewModel
+    @ObservedObject var viewModel: HabitsListView.ViewModel
     var habit: Habit
     let calendar = Calendar.current
 
@@ -107,7 +179,7 @@ struct weekView: View {
                 
                 
                 if let dayNumber = components.day{
-                    DayView(dayNumber: dayNumber, weekdayName: dayName, isDone: habitsVM.isHabitDone(habit: habit, on: date))
+                    DayView(dayNumber: dayNumber, weekdayName: dayName, isDone: viewModel.isHabitDone(habit: habit, on: date))
                 }
             }
         }
@@ -137,6 +209,7 @@ struct DayView: View {
 
 
 
-#Preview {
-    HabitsListView(habitsVM: HabitsViewModel())
-}
+
+//#Preview {
+//    HabitsListView(habitsVM: HabitsViewModel())
+//}
