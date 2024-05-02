@@ -8,7 +8,7 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var habitsVM = HabitsViewModel()
+//    @StateObject var habitsVM = HabitsViewModel()
     @Environment(\.modelContext) var modelContext
 
     var body: some View {
@@ -37,7 +37,7 @@ struct ContentView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
     
-            habitsVM.today = Date()
+//habitsVM.today = Date()
             print("Changed Date")
         }
     

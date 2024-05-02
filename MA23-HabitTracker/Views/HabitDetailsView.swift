@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HabitDetailsView: View {
-    @ObservedObject var habitsVM: HabitsViewModel = HabitsViewModel()
+//    @ObservedObject var habitsVM: HabitsViewModel = HabitsViewModel()
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -31,7 +31,7 @@ struct HabitDetailsView: View {
                     Spacer()
                 }
                // habitCalendarView(habitsVM: habitsVM, habit: habit, date: $date, doneDays: habit.doneDays)
-                habitCalendarView(habitsVM: habitsVM, habit: habit, viewModel: viewModel)
+                habitCalendarView(habit: habit, viewModel: viewModel)
                 //.padding()
                     .background()
                 
@@ -68,7 +68,7 @@ struct HabitDetailsView: View {
     }
     
     func deleteHabit(habit: Habit){
-        habitsVM.removeNotifikation(habit: habit)
+        viewModel.removeNotifikation(habit: habit)
         modelContext.delete(habit)
         presentationMode.wrappedValue.dismiss()
     }
@@ -79,6 +79,7 @@ extension HabitDetailsView {
         @Published var date: Date
         @Published var daysInMonth: [Date]
         var dateManager = DateManager()
+        var notifikationManager = NotificationManager()
         
         init(date: Date = Date()) {
             self.date = date.startDateOfMonth
@@ -105,6 +106,17 @@ extension HabitDetailsView {
             }
         }
         
+        func removeNotifikation(habit: Habit){
+            notifikationManager.removeNotifikation(with: habit.id.uuidString)
+        }
+        
+        func isHabitDone(habit: Habit, on date: Date) -> Bool{
+            return habit.doneDays.contains{ doneDate in
+                Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+            }
+        }
+        
+        
     }
 }
 
@@ -112,7 +124,7 @@ extension HabitDetailsView {
 
 
 struct habitCalendarView: View{
-    @ObservedObject var habitsVM: HabitsViewModel
+//    @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
  //   @Binding var date: Date
 //    var doneDays: [Date]
@@ -124,7 +136,7 @@ struct habitCalendarView: View{
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.white)
                 .background(LinearGradient.bluePurpleGradient)
-            CalendarBodyView(habitsVM: habitsVM, habit: habit, days: $viewModel.daysInMonth)
+            CalendarBodyView(habit: habit, days: $viewModel.daysInMonth, viewModel: viewModel)
                 .padding(10)
         }
     }
@@ -132,10 +144,11 @@ struct habitCalendarView: View{
 
 struct CalendarBodyView: View{
  
-    @ObservedObject var habitsVM: HabitsViewModel
+ //   @ObservedObject var habitsVM: HabitsViewModel
     var habit: Habit
     @Binding var days: [Date]
     var dateManager = DateManager()
+    var viewModel: HabitDetailsView.ViewModel
 
   
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
@@ -153,7 +166,7 @@ struct CalendarBodyView: View{
             }
             ForEach(days, id: \.self) { day in
                 let dayNumber = Calendar.current.component(.day, from: day)
-                CalendarDayView(dayNumber: dayNumber, isDone: habitsVM.isHabitDone(habit: habit, on: day))
+                CalendarDayView(dayNumber: dayNumber, isDone: viewModel.isHabitDone(habit: habit, on: day))
             }
         }
 
@@ -215,7 +228,7 @@ struct CalendarDayView: View {
 }
 
 #Preview {
-    HabitDetailsView(habitsVM: HabitsViewModel(), habit:  Habit(name: "Dricka vatten", createdAt: Date()))
+    HabitDetailsView(habit:  Habit(name: "Dricka vatten", createdAt: Date()))
 }
 
 
