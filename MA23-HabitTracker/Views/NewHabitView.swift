@@ -9,16 +9,11 @@ import SwiftUI
 
 struct NewHabitView: View {
     
-
-    
-    @State private var selectedTime = Date()
-    @State var isReminderOn: Bool = false
+//    @State private var selectedTime = Date()
+//    @State var isReminderOn: Bool = false
     @Bindable var habit: Habit
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode
-//    @StateObject var viewModel: ViewModel
-    
-
     
     var body: some View {
 
@@ -26,36 +21,8 @@ struct NewHabitView: View {
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()
             MainView(viewModel: ViewModel(selectedTime: habit.reminderDate, isReminderOn: habit.reminderSet, habitName: habit.name, habit: habit))
-//            VStack(alignment: .leading){
-//
-//                HabitNameCard(name: $habit.name)
-//                
-//                ReminderCard(selectedTime: $selectedTime, isReminderOn: $isReminderOn, habit: habit, viewModel: viewModel)
-//            
-//                Button(action: {
-//                    //habitsVM.addHabit(withName: name)
-////                       let newHabit = Habit(name: name, createdAt: Date())
-////                       modelContext.insert(newHabit)
-//                    
-////                        isReminderOn = false
-////                        selectedTime = Date()
-////                        name = ""
-//                    
-//                }, label: {
-//                    Text("Add new Habit")
-//                        .frame(maxWidth: .infinity)
-//                        .padding()
-//
-//                        .background(LinearGradient.blueLightBlueGradient)
-//                        .foregroundColor(.white)
-//                        .bold()
-//                        .cornerRadius(20)
-//                })
-//            }
+
             .padding()
-//            .onDisappear{
-//                deleteEmptyHabit()
-//            }
         }
         .navigationBarBackButtonHidden()
 
@@ -87,44 +54,16 @@ extension NewHabitView{
             self.habit = habit
         }
         
-        
-        
-//        func toggleReminder(habit: Habit) {
-//
-//            notifikationManager.requestAuthorization{ didAllow in
-//                DispatchQueue.main.async {
-//                    if didAllow{
-//
-//                        habit.reminderSet = true
-//                        habit.reminderDate = Date()
-//                        self.setNotifikation(habit: habit)
-//                    } else {
-//                        
-//                        habit.reminderSet = false
-//
-//                        self.notifikationManager.removeNotifikation(with: habit.id.uuidString)
-//                    }
-//                }
-//                
-//            }
-//        }
         func toggleReminder() {
 
             notifikationManager.requestAuthorization{ didAllow in
                 DispatchQueue.main.async {
                     if didAllow{
                         self.isReminderOn = true
-//                        habit.reminderSet = true
-//                        habit.reminderDate = Date()
-//                        self.setNotifikation(habit: habit)
                     } else {
                         self.isReminderOn = false
-//                        habit.reminderSet = false
-//
-//                        self.notifikationManager.removeNotifikation(with: habit.id.uuidString)
                     }
                 }
-                
             }
         }
         
@@ -132,11 +71,9 @@ extension NewHabitView{
             let title = "Don´t forget \(habit.name)!"
             let subtitle = habit.name
             
-
             let dateComponents = dateManager.getHourMinuteDateComponents(from: habit.reminderDate)
             notifikationManager.addNotifikation(title: title, subTitle: subtitle, dateComponents: dateComponents, identifier: habit.id.uuidString)
 
-            
         }
         
         func removeNotifikation(habit: Habit){
@@ -151,9 +88,6 @@ extension NewHabitView{
                 setNotifikation(habit: habit)
             }
         }
-        
-        
-        
     }
 }
 
@@ -167,16 +101,10 @@ struct MainView: View{
 
             HabitNameCard(name: $viewModel.habitName)
             
-            ReminderCard(selectedTime: $viewModel.selectedTime, isReminderOn: $viewModel.isReminderOn, viewModel: viewModel)//, habit: habit, viewModel: viewModel
+            ReminderCard(selectedTime: $viewModel.selectedTime, isReminderOn: $viewModel.isReminderOn, viewModel: viewModel)
         
             Button(action: {
-                //habitsVM.addHabit(withName: name)
-//                       let newHabit = Habit(name: name, createdAt: Date())
-//                       modelContext.insert(newHabit)
-                
-//                        isReminderOn = false
-//                        selectedTime = Date()
-//                        name = ""
+
                 viewModel.saveHabit()
                 presentationMode.wrappedValue.dismiss()
             }, label: {
@@ -206,10 +134,10 @@ struct MainView: View{
 
 
 struct ReminderCard: View {
- //   var habitsVM: HabitsViewModel
+    
     @Binding var selectedTime: Date
     @Binding var isReminderOn: Bool
- //   @Bindable var habit: Habit
+    
     @ObservedObject var viewModel: NewHabitView.ViewModel
     
     var body: some View {
@@ -228,26 +156,13 @@ struct ReminderCard: View {
                 }
             if viewModel.isReminderOn{
                 DatePicker("Pick a time", selection: $viewModel.selectedTime, displayedComponents: .hourAndMinute)
-//                    .disabled(!habit.reminderSet)
-//                    .onChange(of: viewModel.selectedTime) { oldValue, newValue in
-//                        print(newValue.timeIntervalSince1970)
-//                        //viewModel.setNotifikation(habit: habit)
-////                        viewModel.toggleReminder()
-//                        
-//                    }
             }
         }
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(10)
- 
+        
     }
-    // Move to TimeManager or VM
-//    var timeFormatter: DateFormatter {
-//        let formatter = DateFormatter()
-//        formatter.timeStyle = .short
-//        return formatter
-//    }
 }
 
 struct HabitNameCard: View {

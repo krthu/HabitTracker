@@ -84,8 +84,6 @@ struct HabitRow: View {
     @Bindable var habit: Habit
     var viewModel: TodayListView.ViewModel
     
-
-
     var body: some View {
 
         VStack(alignment: .trailing) {
@@ -130,14 +128,12 @@ struct HabitRow: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .listRowBackground(Color.clear)
-    
-
-
     }
     
     
     func circleColor(for streak: Int) -> Color{
         switch streak {
+        
         case 1...2:
             return .blue
         case 3...6:
