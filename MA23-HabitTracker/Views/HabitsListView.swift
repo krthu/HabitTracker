@@ -8,44 +8,43 @@ import SwiftData
 import SwiftUI
 
 struct HabitsListView: View {
-
+    
     @StateObject var viewModel = ViewModel()
-
+    
     @Query var habits: [Habit]
-
+    
     
     var body: some View {
         NavigationStack{
             VStack{
-                
-                    HStack{
-                        Button(action: {
-                       //     dateSet = dateManager.getDate(numberOfDaysFrom: -daysBetween, from: dateSet)
-                            viewModel.previousWeek()
-                        }, label: {
-                            Image(systemName: "chevron.left")
-                        })
-                        .padding()
-                       
-                        Text("Week \(viewModel.weekNR)")
-                            .frame(width: 150)
+                HStack{
+                    Button(action: {
                         
-                        Button(action: {
-                          //  dateSet = dateManager.getDate(numberOfDaysFrom: daysBetween, from: dateSet)
-                            viewModel.nextWeek()
-                        }, label: {
-                            Image(systemName: "chevron.right")
-                        })
-                        .padding()
-                    }
-
+                        viewModel.previousWeek()
+                    }, label: {
+                        Image(systemName: "chevron.left")
+                    })
+                    .padding()
+                    
+                    Text("Week \(viewModel.weekNR)")
+                        .frame(width: 150)
+                    
+                    Button(action: {
+                        
+                        viewModel.nextWeek()
+                    }, label: {
+                        Image(systemName: "chevron.right")
+                    })
+                    .padding()
+                }
+                
             }
             
             List{
                 ForEach(habits){ habit in
                     Section{
                         NavigationLink(destination: HabitDetailsView(habit: habit)){
-
+                            
                             HabitStatsRowView(habit: habit, viewModel: viewModel)
                                 .padding(.vertical, 10)
                             
@@ -63,7 +62,7 @@ extension HabitsListView{
         var dateManager = DateManager()
         @Published var weekDays: [Date]
         @Published var weekNR: Int
-
+        
         
         
         init(dateSet: Date = Date(), daysBetween: Int = 7) {
@@ -86,7 +85,7 @@ extension HabitsListView{
         }
         
         func getProgress(for habit: Habit) -> Double {
-
+            
             
             let totalDays = weekDays.count
             var daysDone = 0.0
@@ -109,10 +108,10 @@ extension HabitsListView{
 
 
 struct HabitStatsRowView: View {
-
+    
     var habit: Habit
     @ObservedObject var viewModel: HabitsListView.ViewModel
-
+    
     var dateManager = DateManager()
     var body: some View {
         VStack(alignment: .leading){
@@ -120,10 +119,10 @@ struct HabitStatsRowView: View {
             Text("\(habit.name)")
                 .font(.headline)
                 .bold()
-
+            
             ProgressView(value: viewModel.getProgress(for: habit))
             
-
+            
             weekView(viewModel: viewModel, habit: habit, weekDays: viewModel.weekDays)
             
         }
@@ -132,17 +131,17 @@ struct HabitStatsRowView: View {
 
 
 struct weekView: View {
-
+    
     @ObservedObject var viewModel: HabitsListView.ViewModel
     var habit: Habit
     let calendar = Calendar.current
-
+    
     var weekDays: [Date]
     
     var body: some View {
         HStack {
             ForEach(weekDays, id: \.self) { date in
-
+                
                 let dateFormatter = DateFormatter()
                 let weekday = calendar.component(.weekday, from: date)
                 let dayName = dateFormatter.shortWeekdaySymbols[weekday - 1]

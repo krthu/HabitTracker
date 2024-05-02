@@ -13,7 +13,7 @@ struct LargeButtonLabel: View {
     var foreGroundColor: Color
     
     var body: some View {
-        Text("Add new Habit")
+        Text(text)
             .frame(maxWidth: .infinity)
             .padding()
             .background(backGroundColor)

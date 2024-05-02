@@ -33,7 +33,7 @@ struct ContentView: View {
 //            } catch {
 //                print("Failed to clear all Country and City data.")
 //            }
-       //     addMockData()
+        //    addMockData()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
         // Need to fix this In today list
@@ -59,8 +59,8 @@ struct ContentView: View {
         data.append(Habit(name: "Gå 10 000 steg", createdAt: getDate(year: 2024, month: 2, day: 5), doneDays: [
             getDate(year: 2024, month: 4, day: 21),
             getDate(year: 2024, month: 4, day: 24),
-            getDate(year: 2024, month: 4, day: 26),
-            getDate(year: 2024, month: 4, day: 27)
+            getDate(year: 2024, month: 5, day: 1),
+            getDate(year: 2024, month: 5, day: 2)
         ]))
 
         data.append(Habit(name: "Drick 2 liter vatten", createdAt: getDate(year: 2024, month: 2, day: 10), doneDays: [
