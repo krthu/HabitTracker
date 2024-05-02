@@ -8,20 +8,20 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var habitsVM = HabitsViewModel()
+
     @Environment(\.modelContext) var modelContext
 
     var body: some View {
         TabView{
    
-            TodayListView(habitsVM: habitsVM)
+            TodayListView()
                 .tabItem {
                     Label("Today", systemImage:
                             "\(getSymbol(for:Date())).square")
-                            //"list.bullet")
+                        
                 }
             
-            HabitsListView(habitsVM: habitsVM)
+            HabitsListView()
                 .tabItem{
                     Label("Habits", systemImage: "list.bullet.rectangle.portrait")
                 }
@@ -36,8 +36,8 @@ struct ContentView: View {
        //     addMockData()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-    
-            habitsVM.today = Date()
+        // Need to fix this In today list
+//habitsVM.today = Date()
             print("Changed Date")
         }
     

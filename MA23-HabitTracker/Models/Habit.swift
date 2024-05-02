@@ -55,6 +55,8 @@ class Habit: Identifiable, Hashable{
         return streak
     }
     
+    
+    
 //    func done(onDate date: Date){
 //        doneDays.append(date)
 //    }
