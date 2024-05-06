@@ -14,16 +14,16 @@ struct NewHabitView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-
+        
         ZStack{
             Color(.secondarySystemBackground)
                 .ignoresSafeArea()
             MainView(viewModel: ViewModel(selectedTime: habit.reminderDate, isReminderOn: habit.reminderSet, habitName: habit.name, habit: habit))
-
-            .padding()
+            
+                .padding()
         }
         .navigationBarBackButtonHidden()
-
+        
         .navigationBarItems(leading: Button(
             action: {
                 presentationMode.wrappedValue.dismiss()
@@ -45,7 +45,7 @@ extension NewHabitView{
         var habit: Habit
         
         init( selectedTime: Date = Date(), isReminderOn: Bool, habitName: String, habit: Habit) {
-
+            
             self.selectedTime = selectedTime
             self.isReminderOn = isReminderOn
             self.habitName = habitName
@@ -53,7 +53,7 @@ extension NewHabitView{
         }
         
         func toggleReminder() {
-
+            
             notifikationManager.requestAuthorization{ didAllow in
                 DispatchQueue.main.async {
                     if didAllow{
@@ -67,7 +67,7 @@ extension NewHabitView{
         
         func setNotifikation(habit: Habit){
             let title = "Don´t forget \(habit.name)!"
-            let subtitle = habit.name
+            let subtitle = "Keep your streak!"
             
             let dateComponents = dateManager.getHourMinuteDateComponents(from: habit.reminderDate)
             notifikationManager.addNotifikation(title: title, subTitle: subtitle, dateComponents: dateComponents, identifier: habit.id.uuidString)
@@ -95,20 +95,20 @@ struct MainView: View{
     
     var body: some View{
         VStack(alignment: .leading){
-
+            
             HabitNameCard(name: $viewModel.habitName)
             
             ReminderCard(selectedTime: $viewModel.selectedTime, isReminderOn: $viewModel.isReminderOn, viewModel: viewModel)
-        
+            
             Button(action: {
-
+                
                 viewModel.saveHabit()
                 presentationMode.wrappedValue.dismiss()
             }, label: {
                 Text("Save")
                     .frame(maxWidth: .infinity)
                     .padding()
-
+                
                     .background(LinearGradient.blueLightBlueGradient)
                     .foregroundColor(.white)
                     .bold()
@@ -146,7 +146,7 @@ struct ReminderCard: View {
                 .tint(LinearGradient.bluePurpleGradient)
                 .onChange(of: viewModel.isReminderOn) { oldValue, newValue in
                     if newValue {
-                        //viewModel.toggleReminder(habit: habit)
+                        
                         viewModel.toggleReminder()
                     }
                 }
@@ -162,7 +162,7 @@ struct ReminderCard: View {
 
 struct HabitNameCard: View {
     @Binding var name: String
- 
+    
     var body: some View {
         VStack(alignment: .leading){
             Text("Habit name")

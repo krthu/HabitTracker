@@ -59,7 +59,7 @@ class Habit: Identifiable, Hashable{
     }
     
     func setCurrentStreak(){
-        print("\(name) before: Strek: \(onGoingStreak)")
+     
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         

@@ -18,13 +18,13 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
             if let error = error {
                 print("Error: \(error)")
                 completion(false)
-              
+                
             } else {
                 if didAllow{
-                    print("Allowed")
+                    
                     completion(true)
                 } else {
-                    print("NotAllowed")
+                    
                     completion(false)
                 }
             }
@@ -43,7 +43,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         
         removeNotifikation(with: identifier)
         notifikationsCenter.add(request)
-
+        
         
     }
     
@@ -52,15 +52,15 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("NOTIFIKATION!")
+        
         completionHandler([.banner, .sound])
-
+        
     }
     
-
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void) {
         
         completionHandler()
     }
-
+    
 }

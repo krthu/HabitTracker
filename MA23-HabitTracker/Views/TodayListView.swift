@@ -24,9 +24,9 @@ struct TodayListView: View {
                     
                     ForEach(Array(habits.enumerated()), id: \.element) { index, habit in
                         HabitRow(habit: habit, viewModel: viewModel)
-                        .onTapGesture {
-                            habit.toggleDone(on: Date())
-                        }
+                            .onTapGesture {
+                                habit.toggleDone(on: Date())
+                            }
                     }
                     .listRowSeparator(.hidden)
                 }
@@ -39,7 +39,7 @@ struct TodayListView: View {
                 .toolbar{
                     Button("Hello", systemImage: "plus"){
                         addHabit()
-
+                        
                     }
                 }
                 Spacer()
@@ -47,7 +47,7 @@ struct TodayListView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             viewModel.today = Date()
-            print("Changed Date")
+            
         }
     }
     func addHabit(){
@@ -65,24 +65,18 @@ extension TodayListView{
 
 
 struct HabitRow: View {
-
+    
     @Bindable var habit: Habit
     @ObservedObject var viewModel: TodayListView.ViewModel
     
     var body: some View {
-
+        
         VStack(alignment: .trailing) {
             HStack {
-
-               // Image(systemName: viewModel.isHabitDone(habit: habit, on: viewModel.today) ? "checkmark.circle.fill": "circle")
                 Image(systemName: habit.isHabitDone(on: viewModel.today) ? "checkmark.circle.fill": "circle")
                     .foregroundColor(.blue)
                     .font(.largeTitle)
                     .padding()
-
-                   // .foregroundStyle(LinearGradient.bluePurpleGradient)
-//                    .foregroundStyle(LinearGradient.blueLightBlueGradient)
-              
                 HStack {
                     VStack(alignment: .leading) {
                         Text(habit.name)
@@ -97,9 +91,7 @@ struct HabitRow: View {
                     Spacer()
                     ZStack{
                         Circle()
- 
                             .foregroundColor(Color(circleColor(for: habit.onGoingStreak)))
-                            .foregroundStyle(LinearGradient.blueLightBlueGradient)
                             .frame(width: 30, height: 30)
                         Text("\(habit.onGoingStreak)")
                             .font(.callout)
@@ -118,7 +110,7 @@ struct HabitRow: View {
     
     func circleColor(for streak: Int) -> Color{
         switch streak {
-        
+            
         case 1...2:
             return .blue
         case 3...6:
@@ -128,7 +120,7 @@ struct HabitRow: View {
         }
     }
 }
-    
-    #Preview {
-        TodayListView()
-    }
+
+#Preview {
+    TodayListView()
+}
