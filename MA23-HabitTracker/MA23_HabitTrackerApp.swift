@@ -9,6 +9,12 @@ import SwiftUI
 
 @main
 struct MA23_HabitTrackerApp: App {
+    
+
+    var center = NotificationManager()
+    init(){
+        UNUserNotificationCenter.current().delegate = center
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -17,3 +23,4 @@ struct MA23_HabitTrackerApp: App {
         .modelContainer(for: Habit.self)
     }
 }
+

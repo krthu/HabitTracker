@@ -11,7 +11,6 @@ import UserNotifications
 class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     let notifikationsCenter = UNUserNotificationCenter.current()
     
-    
     func requestAuthorization(completion: @escaping (Bool) -> Void){
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         
@@ -44,7 +43,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         
         removeNotifikation(with: identifier)
         notifikationsCenter.add(request)
-        UNUserNotificationCenter.current().delegate = self
+
         
     }
     
@@ -53,22 +52,15 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-
-        
-//        let identifier = notification.request.identifier
-//        print("Will present!!!!!!")
-//
-//        if identifier == "specifikIdentifier" {
-//
+        print("NOTIFIKATION!")
         completionHandler([.banner, .sound])
-//        } else {
 
-        completionHandler([])
-        //}
     }
     
-    
-//    func checkPermissionStatus(){
-//        let notificationsc
-//    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void) {
+        
+        completionHandler()
+    }
+
 }
