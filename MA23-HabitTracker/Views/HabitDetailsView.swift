@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct HabitDetailsView: View {
-
+    
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @Bindable var habit: Habit
-
+    
     @ObservedObject var viewModel = ViewModel()
-
+    
     var body: some View {
-
+        
         ZStack{
             Color(.systemGray6)
                 .ignoresSafeArea()
@@ -29,12 +29,21 @@ struct HabitDetailsView: View {
                         .bold()
                     Spacer()
                 }
-    
-                habitCalendarView(habit: habit, viewModel: viewModel)
-             
-                    .background()
                 
+                HabitCalendarView(habit: habit, viewModel: viewModel)
+                    .background()
                     .cornerRadius(20)
+                
+                HStack{
+                    Text("Progress")
+                        .font(.title2)
+                        .bold()
+                    Spacer()
+                }
+                
+                ProgressCard(progress: viewModel.getProgressInPercent(for: habit))
+                
+                
                 Spacer()
                 Button(action: {
                     deleteHabit(habit: habit)
@@ -50,7 +59,7 @@ struct HabitDetailsView: View {
             }
             .padding()
         }
-
+        
         .navigationTitle(habit.name)
         .toolbar{
             NavigationLink(destination: NewHabitView(habit: habit)){
@@ -79,7 +88,7 @@ extension HabitDetailsView {
         }
         
         func previousMonth(){
-
+            
             if let newDate = date.previousMonth(){
                 date = newDate
                 daysInMonth = dateManager.getDaysOfMonth(from: date)
@@ -96,15 +105,25 @@ extension HabitDetailsView {
         func removeNotifikation(habit: Habit){
             notifikationManager.removeNotifikation(with: habit.id.uuidString)
         }
+        func getProgress(for habit: Habit) -> Double {
+            habit.getProgress(days: daysInMonth)
+        }
+        
+        func getProgressInPercent(for habit: Habit) -> String{
+            let progress = getProgress(for: habit)
+            let progressPercent = progress * 100
+            let roundedProgressPercent = progressPercent.rounded()
+            return String(format: "%.0f", roundedProgressPercent)
+        }
     }
 }
 
-struct habitCalendarView: View{
-
+struct HabitCalendarView: View{
+    
     var habit: Habit
-
+    
     @ObservedObject var viewModel: HabitDetailsView.ViewModel
-
+    
     var body: some View{
         VStack{
             CalendarHeader(date: $viewModel.date, viewModel: viewModel)
@@ -117,13 +136,37 @@ struct habitCalendarView: View{
     }
 }
 
-struct CalendarBodyView: View{
+struct ProgressCard: View {
+    var progress: String
+    
+    var body: some View {
+        VStack(alignment: .leading){
+            HStack{
+                Image(systemName: "checkmark")
+                    .foregroundColor(.blue)
+                    .font(.title)
+                    .bold()
+                Text("\(progress)%")
+                    .font(.title)
+                    .bold()
+            }
+            Text("Completion rate")
+                .multilineTextAlignment(.center)
+                .font(.footnote)
+                .foregroundColor(.secondary)
+            
+        }
+    }
+}
 
+
+struct CalendarBodyView: View{
+    
     var habit: Habit
     @Binding var days: [Date]
     var dateManager = DateManager()
     var viewModel: HabitDetailsView.ViewModel
-
+    
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     var body: some View{
         LazyVGrid(columns: columns, spacing: 0) {
@@ -159,13 +202,13 @@ struct CalendarHeader: View {
                 Image(systemName: "chevron.left")
             })
             .padding()
-
+            
             Text(date.monthName)
                 .frame(width: 150)
-
+            
             Button(action: {
                 viewModel.nextMonth()
-
+                
             }, label: {
                 Image(systemName: "chevron.right")
             })
