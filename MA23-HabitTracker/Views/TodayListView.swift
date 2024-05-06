@@ -98,10 +98,10 @@ struct HabitRow: View {
                     ZStack{
                         Circle()
  
-                            .foregroundColor(Color(circleColor(for: habit.currentStreak)))
+                            .foregroundColor(Color(circleColor(for: habit.onGoingStreak)))
                             .foregroundStyle(LinearGradient.blueLightBlueGradient)
                             .frame(width: 30, height: 30)
-                        Text("\(habit.currentStreak)")
+                        Text("\(habit.onGoingStreak)")
                             .font(.callout)
                             .foregroundColor(.white)
                     }

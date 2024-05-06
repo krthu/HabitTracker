@@ -82,6 +82,13 @@ extension HabitsListView{
         func getProgress(for habit: Habit) -> Double {
              habit.getProgress(days: weekDays)
         }
+        
+        func getProgressInPercent(for habit: Habit) -> String{
+            let progress = getProgress(for: habit)
+            let progressPercent = progress * 100
+            return String(format: "%.0f", progressPercent)
+        }
+        
     }
 }
 
@@ -91,15 +98,19 @@ struct HabitStatsRowView: View {
     var habit: Habit
     @ObservedObject var viewModel: HabitsListView.ViewModel
     
-    var dateManager = DateManager()
+   // var dateManager = DateManager()
     var body: some View {
         VStack(alignment: .leading){
-            
-            Text("\(habit.name)")
-                .font(.headline)
-                .bold()
+            HStack{
+                Text("\(habit.name)")
+                    .font(.headline)
+                    .bold()
+                Spacer()
+                Text("\(viewModel.getProgressInPercent(for: habit)) %")
+            }
             
             ProgressView(value: viewModel.getProgress(for: habit))
+                
             
             weekView(viewModel: viewModel, habit: habit, weekDays: viewModel.weekDays)
         }

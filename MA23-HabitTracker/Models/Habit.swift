@@ -15,24 +15,51 @@ class Habit: Identifiable, Hashable{
     var doneDays: [Date]
     var reminderSet: Bool
     var reminderDate: Date
+    var onGoingStreak: Int
     
-    
-//    init(name: String, createdAt: Date){
-//        self.name = name
-//        self.createdAt = createdAt
-//    }
-    
-    init(id: UUID = UUID(), name: String, createdAt: Date, doneDays: [Date] = [], reminderSet: Bool = false) {//
+    init(id: UUID = UUID(), name: String, createdAt: Date, doneDays: [Date] = [], reminderSet: Bool = false, onGoingStreak: Int = 0) {//
         self.id = id
         self.name = name
         self.createdAt = createdAt
         self.doneDays = doneDays
         self.reminderSet = reminderSet
         self.reminderDate = Date()
+        self.onGoingStreak = onGoingStreak
+    
     }
     
-    // Move to vm perhaps
-    var currentStreak: Int{
+    func isHabitDone(on date: Date) -> Bool{
+        return doneDays.contains{ doneDate in
+            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
+        }
+    }
+    
+    func toggleDone(on date: Date){
+        if !isHabitDone( on: date){
+            doneDays.append(date)
+        } else {
+            doneDays.removeAll { habitDate in
+                Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
+            }
+        }
+        setCurrentStreak()
+    }
+    
+    func getProgress(days: [Date]) -> Double {
+        
+        let totalDays = days.count
+        var daysDone = 0.0
+        
+        for day in days{
+            if isHabitDone(on: day){
+                daysDone += 1
+            }
+        }
+        return daysDone/Double(totalDays)
+    }
+    
+    func setCurrentStreak(){
+        print("\(name) before: Strek: \(onGoingStreak)")
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         
@@ -52,44 +79,6 @@ class Habit: Identifiable, Hashable{
                 }
             }
         }
-        return streak
+        onGoingStreak = streak
     }
-    
-    func isHabitDone(on date: Date) -> Bool{
-        return doneDays.contains{ doneDate in
-            Calendar.current.isDate(doneDate, equalTo: date, toGranularity: .day)
-        }
-    }
-    
-    func toggleDone(on date: Date){
-        if !isHabitDone( on: date){
-            doneDays.append(date)
-        } else {
-            doneDays.removeAll { habitDate in
-                Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day)
-            }
-        }
-    }
-    
-    func getProgress(days: [Date]) -> Double {
-        
-        let totalDays = days.count
-        var daysDone = 0.0
-        
-        for day in days{
-            if isHabitDone(on: day){
-                daysDone += 1
-            }
-        }
-        return daysDone/Double(totalDays)
-    }
-    
-    
-    
-    
-    
-//    func done(onDate date: Date){
-//        doneDays.append(date)
-//    }
-    
 }

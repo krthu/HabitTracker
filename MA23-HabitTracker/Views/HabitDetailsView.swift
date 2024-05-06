@@ -142,8 +142,6 @@ struct CalendarBodyView: View{
                 CalendarDayView(dayNumber: dayNumber, isDone: habit.isHabitDone( on: day))
             }
         }
-
-        
     }
 }
 

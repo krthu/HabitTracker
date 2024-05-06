@@ -8,9 +8,10 @@
 import Foundation
 
 class DateManager{
+    let calendar = Calendar.current
   
     func getWeekDays(for date: Date) -> [Date] {
-        let calendar = Calendar.current
+
         let interval = calendar.dateInterval(of: .weekOfYear, for: date)
         var weekDays: [Date] = []
         if let interval = interval{
@@ -24,8 +25,8 @@ class DateManager{
     }
 
     func getWeekNumber(from date: Date) -> Int{
-        let calender = Calendar.current
-        let weekNumber = calender.component(.weekOfYear, from: date)
+
+        let weekNumber = calendar.component(.weekOfYear, from: date)
         return weekNumber
     }
     
@@ -35,13 +36,13 @@ class DateManager{
     
     
     func getHourMinuteDateComponents(from date: Date) -> DateComponents{
-        let calendar = Calendar.current
+
         return calendar.dateComponents([.hour, .minute], from: date)
     }
     
 
     func getDate(numberOfDaysFrom: Int, from startDate: Date) -> Date {
-        let calendar = Calendar.current
+
         var dateComponents = DateComponents()
         dateComponents.day = numberOfDaysFrom
         if let newDate = calendar.date(byAdding: dateComponents, to: startDate){
@@ -54,6 +55,10 @@ class DateManager{
         guard let firstDay = days.first else {return 0}
         let weekday = Calendar.current.component(.weekday, from: firstDay)
         return (weekday + 5) % 7
+    }
+    
+    func isSameDay(firstDate: Date, secoundDate: Date) -> Bool{
+        calendar.isDate(firstDate, equalTo: secoundDate, toGranularity: .day) 
     }
     
     
