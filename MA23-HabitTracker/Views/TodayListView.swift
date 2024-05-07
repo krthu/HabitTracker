@@ -21,7 +21,6 @@ struct TodayListView: View {
                 Color(UIColor.systemGroupedBackground)
                     .edgesIgnoringSafeArea(.all)
                 List{
-                    
                     ForEach(Array(habits.enumerated()), id: \.element) { index, habit in
                         HabitRow(habit: habit, viewModel: viewModel)
                             .onTapGesture {

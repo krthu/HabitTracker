@@ -37,7 +37,7 @@ struct ContentView: View {
             //                try modelContext.delete(model: Habit.self)
             //
             //            } catch {
-            //                print("Failed to clear all Country and City data.")
+            //                print("Failed to clear all Data")
             //            }
             //     addMockData()
         }

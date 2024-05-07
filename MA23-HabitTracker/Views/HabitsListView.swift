@@ -98,8 +98,7 @@ struct HabitStatsRowView: View {
     
     var habit: Habit
     @ObservedObject var viewModel: HabitsListView.ViewModel
-    
-    // var dateManager = DateManager()
+
     var body: some View {
         VStack(alignment: .leading){
             HStack{
