@@ -33,13 +33,6 @@ struct ContentView: View {
         .onAppear{
             setStreaks()
             
-            //            do {
-            //                try modelContext.delete(model: Habit.self)
-            //
-            //            } catch {
-            //                print("Failed to clear all Country and City data.")
-            //            }
-            //     addMockData()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             setStreaks()
@@ -57,51 +50,7 @@ struct ContentView: View {
         }
         
     }
-    
-    //    func addMockData(){
-    //        var data: [Habit] = []
-    //
-    //        data.append(Habit(name: "Löp 5km", createdAt: getDate(year: 2024, month: 2, day: 2), doneDays: [getDate(year: 2024, month: 4, day: 21), getDate(year: 2024, month: 4, day: 22), getDate(year: 2024, month: 4, day: 23), getDate(year: 2024, month: 4, day: 24)]))
-    //
-    //        data.append(Habit(name: "Gå 10 000 steg", createdAt: getDate(year: 2024, month: 2, day: 5), doneDays: [
-    //            getDate(year: 2024, month: 4, day: 21),
-    //            getDate(year: 2024, month: 4, day: 24),
-    //            getDate(year: 2024, month: 4, day: 30),
-    //            getDate(year: 2024, month: 5, day: 1)
-    //        ]))
-    //
-    //        data.append(Habit(name: "Drick 2 liter vatten", createdAt: getDate(year: 2024, month: 2, day: 10), doneDays: [
-    //            getDate(year: 2024, month: 4, day: 25),
-    //            getDate(year: 2024, month: 4, day: 26),
-    //            getDate(year: 2024, month: 4, day: 27),
-    //            getDate(year: 2024, month: 4, day: 28)
-    //        ]))
-    //
-    //        data.append(Habit(name: "Läs 30 minuter", createdAt: getDate(year: 2024, month: 2, day: 15), doneDays: [
-    //            getDate(year: 2024, month: 4, day: 22),
-    //            getDate(year: 2024, month: 4, day: 23),
-    //            getDate(year: 2024, month: 4, day: 24),
-    //            getDate(year: 2024, month: 4, day: 27)
-    //        ]))
-    //
-    //
-    //
-    //
-    //        for habit in data {
-    //            modelContext.insert(habit)
-    //        }
-    //    }
-//    func getDate(year: Int, month: Int, day: Int ) -> Date{
-//        let calendar = Calendar.current
-//        
-//        
-//        if let date = calendar.date(from: DateComponents(year: year, month: month, day: day)){
-//
-//            return date
-//            
-//        }
-//        return Date()
-//    }
+
 }
 
 extension ContentView{

@@ -11,9 +11,7 @@ struct HabitDetailsView: View {
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     @Bindable var habit: Habit
-    
     @ObservedObject var viewModel = ViewModel()
     
     var body: some View {

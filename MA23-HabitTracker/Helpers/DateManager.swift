@@ -60,11 +60,7 @@ class DateManager{
     func isSameDay(firstDate: Date, secoundDate: Date) -> Bool{
         calendar.isDate(firstDate, equalTo: secoundDate, toGranularity: .day) 
     }
-    
-    
-    
 }
-
 
 
 extension Date {

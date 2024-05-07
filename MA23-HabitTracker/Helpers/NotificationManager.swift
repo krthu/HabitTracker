@@ -43,8 +43,6 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
         
         removeNotifikation(with: identifier)
         notifikationsCenter.add(request)
-        
-        
     }
     
     func removeNotifikation(with identifier: String){
@@ -54,9 +52,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         completionHandler([.banner, .sound])
-        
     }
-    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: () -> Void) {
         
